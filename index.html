@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>29 — Engine Test Harness</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <h1>29 Card Game — Engine Test Harness</h1>
+  <p>
+    This page is NOT the real game UI. It runs one full auto-played round
+    with all 4 seats controlled by bot logic, and prints every decision so
+    you can check the rules are correct before we build the real card
+    table, Firebase multiplayer, or the Android wrapper.
+  </p>
+  <button id="run-btn">Run one auto-played round</button>
+  <button id="clear-btn">Clear log</button>
+  <pre id="log"></pre>
+
+  <!-- Pure game logic, no networking, no framework -->
+  <script src="js/game/deck.js"></script>
+  <script src="js/game/bidding.js"></script>
+  <script src="js/game/trick.js"></script>
+  <script src="js/game/teams.js"></script>
+  <script src="js/game/scoring.js"></script>
+  <script src="js/game/gameEngine.js"></script>
+  <script src="js/bots/botLogic.js"></script>
+  <script src="js/test/autoplay.js"></script>
+  <script>
+    const logEl = document.getElementById('log');
+    function appendLog(line) {
+      logEl.textContent += line + '\n';
+    }
+    document.getElementById('run-btn').addEventListener('click', () => {
+      appendLog('');
+      Autoplay29.runAutoRound(appendLog);
+    });
+    document.getElementById('clear-btn').addEventListener('click', () => {
+      logEl.textContent = '';
+    });
+  </script>
+</body>
+</html>
