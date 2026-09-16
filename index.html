@@ -1,13 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>29 — Engine Test Harness</title>
-<link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Portal</title>
+
+  <!-- PWA Manifest & Theme -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#22c55e" />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #0d0d0f;
+      --surface: #161618;
+      --border: #2a2a2e;
+      --text-primary: #f0f0f5;
+      --text-secondary: #7b7b8f;
+      --accent: #22c55e;
+      --status-synced: #22c55e;
+      --status-offline: #f59e0b;
+      --status-signed-out: #f43f5e;
+      --radius: 16px;
+      --transition: 200ms ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      user-select: none;
+    }
+
+    /* Scaffolding Layout Classes (Visual logic will be populated in Stage 2) */
+    .container {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    /* Modal / Screen hidden defaults */
+    .hidden {
+      display: none !important;
+    }
+  </style>
 </head>
 <body>
-  <h1>This is Portal</h1>
-  
+
+  <main class="container">
+    <!-- ===== TOP BAR: status dot + label, tap opens Account screen ===== -->
+    <header id="top-bar">
+      <!-- Container for title and tappable status indicator -->
+    </header>
+
+    <!-- ===== EMPTY STATE: shown when no apps added yet ===== -->
+    <div id="empty-state" class="hidden">
+      <!-- Placeholder message when app grid is empty -->
+    </div>
+
+    <!-- ===== APP GRID: 2-column grid of app shortcut cards ===== -->
+    <section id="app-grid">
+      <!-- App shortcut cards rendered dynamically -->
+
+      <!-- ===== ADD APP CARD: dashed border, opens add form ===== -->
+      <div id="add-app-card">
+        <!-- Persistent last card button in grid -->
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== ADD APP MODAL: name, url, icon picker, save button ===== -->
+  <aside id="add-app-modal" class="hidden">
+    <!-- Overlay and form container for adding shortcuts -->
+  </aside>
+
+  <!-- ===== ACCOUNT SCREEN: sign in / sign out, user info ===== -->
+  <aside id="account-screen" class="hidden">
+    <!-- Slide-in or full overlay for user auth and status -->
+  </aside>
+
+  <script>
+    // =========================================================================
+    // STAGE 2: APP SHORTCUTS & LOCAL STORAGE STUBS
+    // =========================================================================
+
+    // STAGE 2: loadApps() — reads app list from localStorage, renders grid
+    function loadApps() {}
+
+    // STAGE 2: saveApp(app) — adds new app to localStorage, re-renders
+    function saveApp(app) {}
+
+    // STAGE 2: removeApp(id) — removes app from localStorage, re-renders
+    function removeApp(id) {}
+
+    // =========================================================================
+    // STAGE 3: FIREBASE AUTH STUBS
+    // =========================================================================
+
+    // STAGE 3: initFirebaseAuth() — sets up Firebase Auth listener
+    function initFirebaseAuth() {}
+
+    // STAGE 3: signIn() / signOut() — Google sign in/out handlers
+    function signIn() {}
+    function signOut() {}
+
+    // STAGE 3: updateStatusDot() — updates top bar status indicator
+    function updateStatusDot() {}
+
+    // =========================================================================
+    // STAGE 4: SERVICE WORKER STUB
+    // =========================================================================
+
+    // STAGE 4: registerServiceWorker() — PWA offline setup
+    function registerServiceWorker() {}
+
+    // Initialize once DOM is ready
+    window.addEventListener('DOMContentLoaded', () => {
+      // Entry point wiring in later stages
+    });
+  </script>
 </body>
 </html>
