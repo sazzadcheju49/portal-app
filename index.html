@@ -18,6 +18,7 @@
     :root {
       --bg: #0d0d0f;
       --surface: #161618;
+      --surface-hover: #1c1c20;
       --border: #2a2a2e;
       --text-primary: #f0f0f5;
       --text-secondary: #7b7b8f;
@@ -47,18 +48,357 @@
       user-select: none;
     }
 
-    /* Scaffolding Layout Classes (Visual logic will be populated in Stage 2) */
     .container {
       width: 100%;
-      max-width: 520px;
+      max-width: 480px;
       margin: 0 auto;
-      padding: 16px 20px;
+      padding: 24px 20px 48px;
       display: flex;
       flex-direction: column;
       flex: 1;
     }
 
-    /* Modal / Screen hidden defaults */
+    /* Top Bar */
+    #top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .brand-title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text-primary);
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background var(--transition), border-color var(--transition);
+    }
+
+    .status-badge:hover {
+      background: var(--surface-hover);
+      border-color: #3f3f46;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--status-signed-out);
+    }
+
+    .status-text {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    /* App Grid */
+    #app-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      width: 100%;
+    }
+
+    .app-card {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      aspect-ratio: 1 / 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 16px;
+      cursor: pointer;
+      transition: transform var(--transition), background var(--transition), border-color var(--transition);
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .app-card:hover {
+      background: var(--surface-hover);
+      border-color: #38383e;
+    }
+
+    .app-card:active {
+      transform: scale(0.97);
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+    }
+
+    .card-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .card-label {
+      font-size: 15px;
+      font-weight: 600;
+      text-align: center;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Add App Card */
+    #add-app-card {
+      background: transparent;
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      aspect-ratio: 1 / 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: border-color var(--transition), color var(--transition), background var(--transition);
+    }
+
+    #add-app-card:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(34, 197, 94, 0.03);
+    }
+
+    #add-app-card svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    #add-app-card span {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* Empty State */
+    #empty-state {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 20px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .empty-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .empty-subtitle {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    /* Modals & Overlays */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 100;
+      padding: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition);
+    }
+
+    .overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-sheet {
+      width: 100%;
+      max-width: 480px;
+      background: var(--surface);
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      border: 1px solid var(--border);
+      border-bottom: none;
+      padding: 24px 24px 36px;
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+      transform: translateY(100%);
+      transition: transform var(--transition);
+    }
+
+    .overlay.active .modal-sheet {
+      transform: translateY(0);
+    }
+
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .sheet-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      padding: 4px;
+    }
+
+    .close-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+
+    .form-input:focus {
+      border-color: var(--accent);
+    }
+
+    /* Icon Picker */
+    .icon-picker-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .icon-opt {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all var(--transition);
+    }
+
+    .icon-opt svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .icon-opt:hover {
+      color: var(--text-primary);
+      border-color: #3f3f46;
+    }
+
+    .icon-opt.selected {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(34, 197, 94, 0.08);
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--accent);
+      color: #041308;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: opacity var(--transition);
+    }
+
+    .btn-submit:hover {
+      opacity: 0.95;
+    }
+
+    /* Long-Press Action Sheet */
+    .action-sheet-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      transition: background var(--transition), border-color var(--transition);
+    }
+
+    .action-btn:hover {
+      background: var(--surface-hover);
+    }
+
+    .action-btn.danger {
+      color: var(--status-signed-out);
+      border-color: rgba(244, 63, 94, 0.3);
+    }
+
+    .action-btn.danger:hover {
+      background: rgba(244, 63, 94, 0.08);
+    }
+
     .hidden {
       display: none !important;
     }
@@ -69,48 +409,297 @@
   <main class="container">
     <!-- ===== TOP BAR: status dot + label, tap opens Account screen ===== -->
     <header id="top-bar">
-      <!-- Container for title and tappable status indicator -->
+      <h1 class="brand-title">Portal</h1>
+      <button class="status-badge" id="status-indicator-btn" aria-label="Account status">
+        <span class="status-dot" id="status-dot"></span>
+        <span class="status-text" id="status-text">Sign in required</span>
+      </button>
     </header>
 
     <!-- ===== EMPTY STATE: shown when no apps added yet ===== -->
     <div id="empty-state" class="hidden">
-      <!-- Placeholder message when app grid is empty -->
+      <div class="empty-title">No apps added yet</div>
+      <div class="empty-subtitle">Tap "+ Add App" below to configure your first shortcut.</div>
     </div>
 
     <!-- ===== APP GRID: 2-column grid of app shortcut cards ===== -->
     <section id="app-grid">
-      <!-- App shortcut cards rendered dynamically -->
+      <!-- Generated dynamically -->
 
       <!-- ===== ADD APP CARD: dashed border, opens add form ===== -->
-      <div id="add-app-card">
-        <!-- Persistent last card button in grid -->
+      <div id="add-app-card" role="button" aria-label="Add App">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        <span>Add App</span>
       </div>
     </section>
   </main>
 
   <!-- ===== ADD APP MODAL: name, url, icon picker, save button ===== -->
-  <aside id="add-app-modal" class="hidden">
-    <!-- Overlay and form container for adding shortcuts -->
+  <aside id="add-app-modal" class="overlay" aria-hidden="true">
+    <div class="modal-sheet">
+      <div class="sheet-header">
+        <h2 class="sheet-title">Add Shortcut</h2>
+        <button class="close-btn" id="modal-close-btn" aria-label="Close modal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <form id="add-app-form">
+        <div class="form-group">
+          <label class="form-label" for="app-name-input">App Name</label>
+          <input type="text" id="app-name-input" class="form-input" placeholder="e.g. Wallet" required autocomplete="off" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="app-url-input">App URL</label>
+          <input type="url" id="app-url-input" class="form-input" placeholder="https://..." required autocomplete="off" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Choose Icon</label>
+          <div class="icon-picker-grid" id="icon-picker-options">
+            <!-- Populated from SVG Icon Catalog -->
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">Add to Portal</button>
+      </form>
+    </div>
+  </aside>
+
+  <!-- Card Actions Sheet (Long-Press Menu) -->
+  <aside id="action-sheet-modal" class="overlay" aria-hidden="true">
+    <div class="modal-sheet">
+      <div class="sheet-header">
+        <h2 class="sheet-title" id="action-sheet-title">Manage App</h2>
+        <button class="close-btn" id="action-close-btn" aria-label="Close menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="action-sheet-buttons">
+        <button type="button" class="action-btn" id="action-open-btn">Open App</button>
+        <button type="button" class="action-btn danger" id="action-remove-btn">Remove from Portal</button>
+      </div>
+    </div>
   </aside>
 
   <!-- ===== ACCOUNT SCREEN: sign in / sign out, user info ===== -->
   <aside id="account-screen" class="hidden">
-    <!-- Slide-in or full overlay for user auth and status -->
+    <!-- Populated in Stage 3 -->
   </aside>
 
   <script>
     // =========================================================================
-    // STAGE 2: APP SHORTCUTS & LOCAL STORAGE STUBS
+    // SVG ICON CATALOG (10 standard icons, zero emojis)
+    // =========================================================================
+    const ICONS = {
+      wallet: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><circle cx="16" cy="14" r="1"/></svg>`,
+      tasks: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
+      habits: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>`,
+      notes: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
+      orbit: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+      nexus: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+      analytics: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>`,
+      vault: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`,
+      code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`,
+      compass: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>`
+    };
+
+    const STORAGE_KEY = 'portal_apps';
+    let selectedIconKey = 'wallet';
+    let activeAppTarget = null;
+    let pressTimer = null;
+    let isLongPress = false;
+
+    // =========================================================================
+    // STAGE 2: APP SHORTCUTS & LOCAL STORAGE LOGIC
     // =========================================================================
 
     // STAGE 2: loadApps() — reads app list from localStorage, renders grid
-    function loadApps() {}
+    function loadApps() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      let apps = [];
+
+      if (raw === null) {
+        // First run seed: Wallet app
+        apps = [
+          {
+            id: 'wallet-default',
+            name: 'Wallet',
+            url: 'https://wallet.example.com',
+            icon: 'wallet',
+            order: 0
+          }
+        ];
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
+      } else {
+        try {
+          apps = JSON.parse(raw) || [];
+        } catch (e) {
+          apps = [];
+        }
+      }
+
+      renderGrid(apps);
+      return apps;
+    }
 
     // STAGE 2: saveApp(app) — adds new app to localStorage, re-renders
-    function saveApp(app) {}
+    function saveApp(app) {
+      const apps = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      apps.push(app);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
+      renderGrid(apps);
+    }
 
     // STAGE 2: removeApp(id) — removes app from localStorage, re-renders
-    function removeApp(id) {}
+    function removeApp(id) {
+      let apps = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      apps = apps.filter(item => item.id !== id);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
+      renderGrid(apps);
+    }
+
+    function renderGrid(apps) {
+      const grid = document.getElementById('app-grid');
+      const emptyState = document.getElementById('empty-state');
+      const addCard = document.getElementById('add-app-card');
+
+      // Clear existing app cards (keep only the Add App card)
+      const existingCards = grid.querySelectorAll('.app-card');
+      existingCards.forEach(c => c.remove());
+
+      if (apps.length === 0) {
+        emptyState.classList.remove('hidden');
+      } else {
+        emptyState.classList.add('hidden');
+      }
+
+      apps.forEach(app => {
+        const card = document.createElement('div');
+        card.className = 'app-card';
+        card.dataset.id = app.id;
+        card.dataset.url = app.url;
+        card.dataset.name = app.name;
+
+        const iconSvg = ICONS[app.icon] || ICONS.compass;
+
+        card.innerHTML = `
+          <div class="card-icon">${iconSvg}</div>
+          <span class="card-label">${escapeHtml(app.name)}</span>
+        `;
+
+        // Interaction bindings (Click vs Long Press)
+        bindCardEvents(card, app);
+
+        // Insert before the "+ Add App" card
+        grid.insertBefore(card, addCard);
+      });
+    }
+
+    function bindCardEvents(card, app) {
+      const startPress = () => {
+        isLongPress = false;
+        pressTimer = setTimeout(() => {
+          isLongPress = true;
+          openActionSheet(app);
+        }, 500);
+      };
+
+      const cancelPress = () => {
+        clearTimeout(pressTimer);
+      };
+
+      card.addEventListener('mousedown', startPress);
+      card.addEventListener('mouseup', cancelPress);
+      card.addEventListener('mouseleave', cancelPress);
+
+      card.addEventListener('touchstart', startPress, { passive: true });
+      card.addEventListener('touchend', cancelPress);
+      card.addEventListener('touchcancel', cancelPress);
+
+      card.addEventListener('click', (e) => {
+        if (isLongPress) {
+          e.preventDefault();
+          return;
+        }
+        // Direct navigation
+        if (app.url) {
+          window.location.href = app.url;
+        }
+      });
+    }
+
+    function openActionSheet(app) {
+      activeAppTarget = app;
+      const sheet = document.getElementById('action-sheet-modal');
+      const title = document.getElementById('action-sheet-title');
+      title.textContent = app.name;
+      sheet.classList.add('active');
+      sheet.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeActionSheet() {
+      const sheet = document.getElementById('action-sheet-modal');
+      sheet.classList.remove('active');
+      sheet.setAttribute('aria-hidden', 'true');
+      activeAppTarget = null;
+    }
+
+    function openAddModal() {
+      const modal = document.getElementById('add-app-modal');
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
+      document.getElementById('app-name-input').focus();
+    }
+
+    function closeAddModal() {
+      const modal = document.getElementById('add-app-modal');
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+      document.getElementById('add-app-form').reset();
+      selectIcon('wallet');
+    }
+
+    function selectIcon(iconKey) {
+      selectedIconKey = iconKey;
+      const options = document.querySelectorAll('.icon-opt');
+      options.forEach(opt => {
+        if (opt.dataset.icon === iconKey) {
+          opt.classList.add('selected');
+        } else {
+          opt.classList.remove('selected');
+        }
+      });
+    }
+
+    function setupIconPicker() {
+      const picker = document.getElementById('icon-picker-options');
+      picker.innerHTML = '';
+      Object.keys(ICONS).forEach((key) => {
+        const btn = document.createElement('div');
+        btn.className = `icon-opt ${key === selectedIconKey ? 'selected' : ''}`;
+        btn.dataset.icon = key;
+        btn.innerHTML = ICONS[key];
+        btn.addEventListener('click', () => selectIcon(key));
+        picker.appendChild(btn);
+      });
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
 
     // =========================================================================
     // STAGE 3: FIREBASE AUTH STUBS
@@ -133,9 +722,68 @@
     // STAGE 4: registerServiceWorker() — PWA offline setup
     function registerServiceWorker() {}
 
-    // Initialize once DOM is ready
+    // =========================================================================
+    // INITIALIZATION & EVENT LISTENERS
+    // =========================================================================
     window.addEventListener('DOMContentLoaded', () => {
-      // Entry point wiring in later stages
+      // Build icon palette
+      setupIconPicker();
+
+      // Load app grid from storage
+      loadApps();
+
+      // Modal open/close controls
+      document.getElementById('add-app-card').addEventListener('click', openAddModal);
+      document.getElementById('modal-close-btn').addEventListener('click', closeAddModal);
+      document.getElementById('add-app-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'add-app-modal') closeAddModal();
+      });
+
+      // Action sheet controls
+      document.getElementById('action-close-btn').addEventListener('click', closeActionSheet);
+      document.getElementById('action-sheet-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'action-sheet-modal') closeActionSheet();
+      });
+
+      document.getElementById('action-open-btn').addEventListener('click', () => {
+        if (activeAppTarget && activeAppTarget.url) {
+          const url = activeAppTarget.url;
+          closeActionSheet();
+          window.location.href = url;
+        }
+      });
+
+      document.getElementById('action-remove-btn').addEventListener('click', () => {
+        if (activeAppTarget) {
+          removeApp(activeAppTarget.id);
+          closeActionSheet();
+        }
+      });
+
+      // Add App Form submit
+      document.getElementById('add-app-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const nameInput = document.getElementById('app-name-input').value.trim();
+        let urlInput = document.getElementById('app-url-input').value.trim();
+
+        if (!nameInput || !urlInput) return;
+
+        // Ensure scheme exists
+        if (!/^https?:\/\//i.test(urlInput)) {
+          urlInput = 'https://' + urlInput;
+        }
+
+        const newApp = {
+          id: 'app_' + Date.now(),
+          name: nameInput,
+          url: urlInput,
+          icon: selectedIconKey,
+          order: Date.now()
+        };
+
+        saveApp(newApp);
+        closeAddModal();
+      });
     });
   </script>
 </body>
