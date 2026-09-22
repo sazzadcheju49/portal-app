@@ -1,0 +1,23 @@
+[
+  {
+    "id": "portal",
+    "name": "Portal",
+    "baseUrl": "https://sazzadcheju49.github.io/portal-app/",
+    "capabilities": ["haptics"],
+    "themeColor": "#6366f1"
+  },
+  {
+    "id": "wallet",
+    "name": "Wallet",
+    "baseUrl": "https://sazzadcheju49.github.io/wallet-app/",
+    "capabilities": ["biometrics", "files", "haptics"],
+    "themeColor": "#10b981"
+  },
+  {
+    "id": "orbit",
+    "name": "Orbit",
+    "baseUrl": "https://sazzadcheju49.github.io/orbit-app/",
+    "capabilities": ["files", "haptics"],
+    "themeColor": "#f59e0b"
+  }
+]
