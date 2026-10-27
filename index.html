@@ -2,32 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0d0f12" />
+  <title>Lite</title>
 
-  <!-- PWA Manifest & Theme -->
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#22c55e" />
+  <!-- External integration scripts -->
+  <script src="https://sazzadcheju49.github.io/portal-app/portalBridge.js?v=1"></script>
+  <script src="https://sazzadcheju49.github.io/portal-app/dataSync.js?v=1"></script>
 
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <meta name="description" content="Lite — Personal productivity launcher and app drawer" />
+  <meta name="apple-mobile-web-app-title" content="Lite" />
+  <meta name="application-name" content="Lite" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <!-- Embedded Data-URI Vector App Icon (Window Motif SVG) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2'/%3E%3Cline x1='3' y1='12' x2='21' y2='12'/%3E%3Cline x1='12' y1='3' x2='12' y2='21'/%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%230d0f12'/%3E%3Crect x='96' y='96' width='320' height='320' rx='40' fill='none' stroke='%2338bdf8' stroke-width='32'/%3E%3Cline x1='96' y1='256' x2='416' y2='256' stroke='%2338bdf8' stroke-width='32'/%3E%3Cline x1='256' y1='96' x2='256' y2='416' stroke='%2338bdf8' stroke-width='32'/%3E%3C/svg%3E" />
+
+  <!-- Self-contained Web App Manifest Data-URI -->
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Lite%22%2C%22short_name%22%3A%22Lite%22%2C%22description%22%3A%22Personal%20productivity%20launcher%20and%20app%20drawer%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230d0f12%22%2C%22theme_color%22%3A%22%230d0f12%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20512%20512'%253E%253Crect%20width%3D'512'%20height%3D'512'%20rx%3D'110'%20fill%3D'%25230d0f12'%2F%253E%253Crect%20x%3D'96'%20y%3D'96'%20width%3D'320'%20height%3D'320'%20rx%3D'40'%20fill%3D'none'%20stroke%3D'%252338bdf8'%20stroke-width%3D'32'%2F%253E%253Cline%20x1%3D'96'%20y1%3D'256'%20x2%3D'416'%20y2%3D'256'%20stroke%3D'%252338bdf8'%20stroke-width%3D'32'%2F%253E%253Cline%20x1%3D'256'%20y1%3D'96'%20x2%3D'256'%20y2%3D'416'%20stroke%3D'%252338bdf8'%20stroke-width%3D'32'%2F%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
   <style>
     :root {
-      --bg: #0d0d0f;
-      --surface: #161618;
-      --surface-hover: #1c1c20;
-      --border: #2a2a2e;
-      --text-primary: #f0f0f5;
-      --text-secondary: #7b7b8f;
-      --accent: #22c55e;
-      --status-synced: #22c55e;
-      --status-offline: #f59e0b;
-      --status-signed-out: #f43f5e;
-      --radius: 16px;
-      --transition: 200ms ease;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+
+      --bg-base: #0d0f12;
+      --bg-card: rgba(255, 255, 255, 0.05);
+      --bg-card-hover: rgba(255, 255, 255, 0.08);
+      --border-card: rgba(255, 255, 255, 0.08);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent-color: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --danger: #ef4444;
+      --success: #22c55e;
+      --warning: #f59e0b;
     }
 
     * {
@@ -35,756 +51,2490 @@
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text-primary);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
       user-select: none;
     }
 
-    .container {
-      width: 100%;
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 24px 20px 48px;
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
       display: flex;
       flex-direction: column;
-      flex: 1;
     }
 
-    /* Top Bar */
-    #top-bar {
+    .safe-area-gradient {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--safe-top);
+      background: linear-gradient(to bottom, rgba(13, 15, 18, 0.95), rgba(13, 15, 18, 0.4));
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    #app-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding-top: var(--safe-top);
+      padding-bottom: calc(var(--safe-bottom) + 24px);
+      padding-left: calc(var(--safe-left) + 16px);
+      padding-right: calc(var(--safe-right) + 16px);
+      max-width: 680px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .screen {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+    .screen.hidden {
+      display: none !important;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0 10px 0;
+    }
+
+    .brand-group {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 28px;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: var(--accent-color);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .brand-title {
-      font-size: 24px;
+      font-size: 1.25rem;
       font-weight: 700;
-      letter-spacing: -0.5px;
-      color: var(--text-primary);
+      letter-spacing: -0.02em;
     }
 
-    .status-badge {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 999px;
+    .icon-button {
+      background: none;
+      border: none;
+      color: var(--text-main);
       cursor: pointer;
-      transition: background var(--transition), border-color var(--transition);
-    }
-
-    .status-badge:hover {
-      background: var(--surface-hover);
-      border-color: #3f3f46;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--status-signed-out);
-    }
-
-    .status-text {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-secondary);
-    }
-
-    /* App Grid */
-    #app-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      width: 100%;
-    }
-
-    .app-card {
-      position: relative;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      aspect-ratio: 1 / 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      padding: 16px;
-      cursor: pointer;
-      transition: transform var(--transition), background var(--transition), border-color var(--transition);
-      text-decoration: none;
-      color: var(--text-primary);
-    }
-
-    .app-card:hover {
-      background: var(--surface-hover);
-      border-color: #38383e;
-    }
-
-    .app-card:active {
-      transform: scale(0.97);
-    }
-
-    .card-icon {
-      width: 44px;
-      height: 44px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--accent);
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
     }
 
-    .card-icon svg {
-      width: 100%;
-      height: 100%;
+    .icon-button svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
     }
 
-    .card-label {
-      font-size: 15px;
-      font-weight: 600;
-      text-align: center;
-      max-width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    /* Add App Card */
-    #add-app-card {
-      background: transparent;
-      border: 2px dashed var(--border);
-      border-radius: var(--radius);
-      aspect-ratio: 1 / 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      cursor: pointer;
-      color: var(--text-secondary);
-      transition: border-color var(--transition), color var(--transition), background var(--transition);
-    }
-
-    #add-app-card:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: rgba(34, 197, 94, 0.03);
-    }
-
-    #add-app-card svg {
-      width: 32px;
-      height: 32px;
-    }
-
-    #add-app-card span {
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    /* Empty State */
-    #empty-state {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 32px 20px;
-      text-align: center;
-      margin-bottom: 16px;
-    }
-
-    .empty-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 6px;
-    }
-
-    .empty-subtitle {
-      font-size: 13px;
-      color: var(--text-secondary);
-    }
-
-    /* Modals & Overlays */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(6px);
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      z-index: 100;
-      padding: 0;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity var(--transition);
-    }
-
-    .overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal-sheet {
-      width: 100%;
-      max-width: 480px;
-      background: var(--surface);
-      border-top-left-radius: 24px;
-      border-top-right-radius: 24px;
-      border: 1px solid var(--border);
-      border-bottom: none;
-      padding: 24px 24px 36px;
-      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
-      transform: translateY(100%);
-      transition: transform var(--transition);
-    }
-
-    .overlay.active .modal-sheet {
-      transform: translateY(0);
-    }
-
-    .sheet-header {
+    .header-profile {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      padding: 16px 0 20px 0;
+      border-bottom: 1px solid var(--border-card);
     }
 
-    .sheet-title {
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    .close-btn {
-      background: none;
-      border: none;
-      color: var(--text-secondary);
-      cursor: pointer;
+    .profile-info {
       display: flex;
-      padding: 4px;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
     }
 
-    .close-btn:hover {
-      color: var(--text-primary);
+    .profile-name {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
     }
 
-    .form-group {
-      margin-bottom: 16px;
+    .profile-tagline {
+      font-size: 0.85rem;
+      color: var(--text-muted);
     }
 
-    .form-label {
-      display: block;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      margin-bottom: 8px;
+    .avatar-wrapper {
+      position: relative;
+      width: 54px;
+      height: 54px;
+      cursor: pointer;
     }
 
-    .form-input {
+    .avatar-img {
       width: 100%;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 14px;
-      color: var(--text-primary);
-      font-family: inherit;
-      font-size: 14px;
-      outline: none;
-      transition: border-color var(--transition);
-    }
-
-    .form-input:focus {
-      border-color: var(--accent);
-    }
-
-    /* Icon Picker */
-    .icon-picker-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      margin-top: 8px;
-    }
-
-    .icon-opt {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      height: 48px;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--bg-card);
+      border: 2px solid var(--border-card);
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      color: var(--text-secondary);
-      transition: all var(--transition);
+      overflow: hidden;
     }
 
-    .icon-opt svg {
-      width: 22px;
-      height: 22px;
+    .avatar-img svg {
+      width: 26px;
+      height: 26px;
+      stroke: var(--text-muted);
+      fill: none;
+      stroke-width: 1.8;
     }
 
-    .icon-opt:hover {
-      color: var(--text-primary);
-      border-color: #3f3f46;
+    .avatar-badge {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      border: 2px solid var(--bg-base);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .icon-opt.selected {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: rgba(34, 197, 94, 0.08);
+    .avatar-badge svg {
+      width: 10px;
+      height: 10px;
+      stroke: #000;
+      stroke-width: 3;
     }
 
-    .btn-submit {
-      width: 100%;
-      background: var(--accent);
-      color: #041308;
-      border: none;
+    .action-toolbar {
+      display: flex;
+      gap: 10px;
+      padding: 16px 0;
+    }
+
+    .btn-action {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 14px;
       border-radius: 12px;
-      padding: 14px;
-      font-size: 15px;
+      font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
-      margin-top: 20px;
-      transition: opacity var(--transition);
+      border: 1px solid var(--border-card);
+      background: var(--bg-card);
+      color: var(--text-main);
+      transition: background 0.15s ease;
     }
 
-    .btn-submit:hover {
-      opacity: 0.95;
+    .btn-action:active {
+      background: var(--bg-card-hover);
     }
 
-    /* Long-Press Action Sheet */
-    .action-sheet-buttons {
+    .btn-action svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    #orchestrator-status-area {
+      margin-bottom: 12px;
+    }
+
+    /* Single-Column List (Settings-app feel) */
+    .app-list-container {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-top: 14px;
+      gap: 8px;
+      margin-top: 4px;
     }
 
-    .action-btn {
-      width: 100%;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      color: var(--text-primary);
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 15px;
-      font-weight: 600;
-      text-align: center;
+    .app-row {
+      display: flex;
+      align-items: center;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
       cursor: pointer;
-      transition: background var(--transition), border-color var(--transition);
+      transition: transform 0.1s ease, background 0.15s ease;
+      touch-action: pan-y;
+      position: relative;
     }
 
-    .action-btn:hover {
-      background: var(--surface-hover);
+    .app-row:active {
+      background: var(--bg-card-hover);
     }
 
-    .action-btn.danger {
-      color: var(--status-signed-out);
-      border-color: rgba(244, 63, 94, 0.3);
+    .app-icon-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-right: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .action-btn.danger:hover {
-      background: rgba(244, 63, 94, 0.08);
+    .app-icon-badge svg {
+      width: 22px;
+      height: 22px;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
     }
 
-    .hidden {
-      display: none !important;
+    .app-meta {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+    }
+
+    .app-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .app-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.25;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .app-row-end {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 10px;
+      flex-shrink: 0;
+    }
+
+    /* Unsynced Indicator Dot */
+    .unsynced-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--warning);
+      box-shadow: 0 0 8px var(--warning);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .unsynced-dot.active {
+      opacity: 1;
+    }
+
+    /* Subtle row chevron */
+    .row-arrow {
+      width: 14px;
+      height: 14px;
+      stroke: var(--text-muted);
+      stroke-width: 2;
+      fill: none;
+      opacity: 0.5;
+    }
+
+    /* Registry States: Offline Note & Empty Error Card */
+    .registry-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      margin-bottom: 8px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #fbbf24;
+    }
+
+    .registry-error-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 36px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      margin-top: 24px;
+      gap: 14px;
+    }
+
+    .registry-error-card svg {
+      width: 42px;
+      height: 42px;
+      stroke: var(--danger);
+      fill: none;
+      stroke-width: 1.8;
+    }
+
+    .registry-error-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .registry-error-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      max-width: 280px;
+      line-height: 1.4;
+    }
+
+    .btn-retry {
+      background: var(--accent-color);
+      color: #000;
+      font-weight: 600;
+      font-size: 0.85rem;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-retry svg {
+      width: 14px;
+      height: 14px;
+      stroke: #000;
+      stroke-width: 2.2;
+    }
+
+    .settings-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0 20px 0;
+      border-bottom: 1px solid var(--border-card);
+      margin-bottom: 16px;
+    }
+
+    .settings-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .settings-section {
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .settings-section-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    #diagnostics-screen {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #iframe-host {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      border: 0;
+    }
+
+    .banner-notification {
+      padding: 10px 14px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Glassmorphism Surface Defaults */
+    .app-row, .btn-action, .settings-header, .header-profile, .banner-notification {
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    /* Fallback for browsers/devices without backdrop-filter support */
+    @supports not ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))) {
+      .app-row, .btn-action, #orchestrator-status-area > div {
+        background: var(--bg-card-solid) !important;
+      }
+      .safe-area-gradient {
+        background: var(--bg-base) !important;
+      }
+    }
+
+    /* Themed Mood Definitions */
+    body[data-mood="Paper"] {
+      --bg-base: #ffffff;
+      --bg-card: rgba(0, 0, 0, 0.035);
+      --bg-card-hover: rgba(0, 0, 0, 0.06);
+      --bg-card-solid: #f4f4f5;
+      --border-card: rgba(0, 0, 0, 0.09);
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --safe-gradient-start: rgba(255, 255, 255, 0.96);
+      --safe-gradient-end: rgba(255, 255, 255, 0.4);
+    }
+
+    body[data-mood="Fog"] {
+      --bg-base: #f3f4f6;
+      --bg-card: rgba(0, 0, 0, 0.03);
+      --bg-card-hover: rgba(0, 0, 0, 0.055);
+      --bg-card-solid: #e5e7eb;
+      --border-card: rgba(0, 0, 0, 0.08);
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --safe-gradient-start: rgba(243, 244, 246, 0.96);
+      --safe-gradient-end: rgba(243, 244, 246, 0.4);
+    }
+
+    body[data-mood="Cream"] {
+      --bg-base: #fbf8f2;
+      --bg-card: rgba(60, 40, 20, 0.035);
+      --bg-card-hover: rgba(60, 40, 20, 0.065);
+      --bg-card-solid: #f2ebe0;
+      --border-card: rgba(60, 40, 20, 0.09);
+      --text-main: #292524;
+      --text-muted: #78716c;
+      --safe-gradient-start: rgba(251, 248, 242, 0.96);
+      --safe-gradient-end: rgba(251, 248, 242, 0.4);
+    }
+
+    body[data-mood="Obsidian"] {
+      --bg-base: #000000;
+      --bg-card: rgba(255, 255, 255, 0.06);
+      --bg-card-hover: rgba(255, 255, 255, 0.09);
+      --bg-card-solid: #121212;
+      --border-card: rgba(255, 255, 255, 0.1);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --safe-gradient-start: rgba(0, 0, 0, 0.96);
+      --safe-gradient-end: rgba(0, 0, 0, 0.4);
+    }
+
+    body[data-mood="Slate"] {
+      --bg-base: #13171f;
+      --bg-card: rgba(255, 255, 255, 0.045);
+      --bg-card-hover: rgba(255, 255, 255, 0.08);
+      --bg-card-solid: #1f242e;
+      --border-card: rgba(255, 255, 255, 0.075);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --safe-gradient-start: rgba(19, 23, 31, 0.96);
+      --safe-gradient-end: rgba(19, 23, 31, 0.4);
+    }
+
+    body[data-mood="Dusk"] {
+      --bg-base: #0d1527;
+      --bg-card: rgba(255, 255, 255, 0.05);
+      --bg-card-hover: rgba(255, 255, 255, 0.085);
+      --bg-card-solid: #18223c;
+      --border-card: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --safe-gradient-start: rgba(13, 21, 39, 0.96);
+      --safe-gradient-end: rgba(13, 21, 39, 0.4);
+    }
+
+    .safe-area-gradient {
+      background: linear-gradient(to bottom, var(--safe-gradient-start, rgba(0, 0, 0, 0.95)), var(--safe-gradient-end, rgba(0, 0, 0, 0.4))) !important;
+    }
+
+    /* Mood selection tiles */
+    .mood-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .mood-btn {
+      padding: 10px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid var(--border-card);
+      background: var(--bg-card);
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+
+    .mood-btn.active {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 1px var(--accent-color);
+    }
+
+    .mood-indicator-circle {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.15);
+    }
+
+    /* Accent color swatches */
+    .accent-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .accent-swatch {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s ease;
+    }
+
+    .accent-swatch:hover {
+      transform: scale(1.08);
+    }
+
+    .accent-swatch.active {
+      border-color: var(--text-main);
+      box-shadow: 0 0 0 2px var(--bg-base);
+    }
+
+    .accent-swatch svg {
+      width: 16px;
+      height: 16px;
+      stroke: #000;
+      stroke-width: 3;
+      display: none;
+    }
+
+    .accent-swatch.active svg {
+      display: block;
+    }
+
+    /* Drag-to-reorder styling */
+    .app-row {
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: pan-y;
+      cursor: grab;
+    }
+
+    .app-row.dragging {
+      opacity: 0.55;
+      background: var(--bg-card-hover);
+      border-color: var(--accent-color);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      cursor: grabbing;
+      z-index: 100;
+    }
+
+    .app-row.drag-over-top {
+      border-top: 2px solid var(--accent-color);
+    }
+
+    .app-row.drag-over-bottom {
+      border-bottom: 2px solid var(--accent-color);
+    }
+
+    .drag-handle-indicator {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 0 4px;
+      opacity: 0.35;
+      cursor: grab;
+      flex-shrink: 0;
+      margin-right: 8px;
+    }
+
+    .drag-handle-indicator span {
+      width: 14px;
+      height: 2px;
+      background: var(--text-muted);
+      border-radius: 1px;
     }
   </style>
 </head>
 <body>
+  <div class="safe-area-gradient" aria-hidden="true"></div>
+  <div id="iframe-host" aria-hidden="true"></div>
 
-  <main class="container">
-    <!-- ===== TOP BAR: status dot + label, tap opens Account screen ===== -->
-    <header id="top-bar">
-      <h1 class="brand-title">Portal</h1>
-      <button class="status-badge" id="status-indicator-btn" aria-label="Account status">
-        <span class="status-dot" id="status-dot"></span>
-        <span class="status-text" id="status-text">Sign in required</span>
-      </button>
-    </header>
+  <div id="app-container">
+    <div id="sw-update-banner" class="banner-notification" style="display:none;"></div>
 
-    <!-- ===== EMPTY STATE: shown when no apps added yet ===== -->
-    <div id="empty-state" class="hidden">
-      <div class="empty-title">No apps added yet</div>
-      <div class="empty-subtitle">Tap "+ Add App" below to configure your first shortcut.</div>
-    </div>
+    <!-- MAIN SCREEN -->
+    <main id="main-screen" class="screen">
+      <header class="header-nav">
+        <div class="brand-group">
+          <svg class="brand-icon" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="12" y1="3" x2="12" y2="21" />
+          </svg>
+          <span class="brand-title">Lite</span>
+        </div>
 
-    <!-- ===== APP GRID: 2-column grid of app shortcut cards ===== -->
-    <section id="app-grid">
-      <!-- Generated dynamically -->
-
-      <!-- ===== ADD APP CARD: dashed border, opens add form ===== -->
-      <div id="add-app-card" role="button" aria-label="Add App">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-        <span>Add App</span>
-      </div>
-    </section>
-  </main>
-
-  <!-- ===== ADD APP MODAL: name, url, icon picker, save button ===== -->
-  <aside id="add-app-modal" class="overlay" aria-hidden="true">
-    <div class="modal-sheet">
-      <div class="sheet-header">
-        <h2 class="sheet-title">Add Shortcut</h2>
-        <button class="close-btn" id="modal-close-btn" aria-label="Close modal">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
+        <button id="btn-open-settings" class="icon-button" aria-label="Open Settings">
+          <svg viewBox="0 0 24 24">
+            <line x1="4" y1="7" x2="20" y2="7" />
+            <line x1="4" y1="12" x2="20" y2="12" />
+            <line x1="4" y1="17" x2="20" y2="17" />
           </svg>
         </button>
+      </header>
+
+      <section class="header-profile">
+        <div class="profile-info" id="profile-info-trigger" title="Edit name & tagline">
+          <h1 class="profile-name" id="user-display-name">My Workspace</h1>
+          <p class="profile-tagline" id="user-display-tagline">Personal Productivity Ecosystem</p>
+        </div>
+
+        <div class="avatar-wrapper" id="avatar-trigger" title="Change photo">
+          <div class="avatar-img" id="avatar-container">
+            <svg viewBox="0 0 24 24">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          <div class="avatar-badge">
+            <svg viewBox="0 0 24 24">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+          </div>
+          <input type="file" id="avatar-file-input" accept="image/*" style="display:none;" />
+        </div>
+      </section>
+
+      <section class="action-toolbar">
+        <button id="btn-sync-all" class="btn-action">
+          <svg viewBox="0 0 24 24">
+            <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2" />
+          </svg>
+          <span>Sync All</span>
+        </button>
+        <button id="btn-refresh-all" class="btn-action">
+          <svg viewBox="0 0 24 24">
+            <polyline points="23 4 23 10 17 10" />
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+          </svg>
+          <span>Refresh All</span>
+        </button>
+      </section>
+
+      <section id="orchestrator-status-area"></section>
+
+      <!-- Registry Status / Offline Banner -->
+      <section id="registry-status-banner"></section>
+
+      <!-- App List -->
+      <section id="app-list" class="app-list-container" role="list">
+        <!-- Rows dynamically injected by Segment 2 -->
+      </section>
+    </main>
+
+    <!-- SETTINGS SCREEN -->
+    <section id="settings-screen" class="screen hidden">
+      <header class="settings-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button id="btn-close-settings" class="icon-button" aria-label="Back to main">
+            <svg viewBox="0 0 24 24">
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+          </button>
+          <h2 class="settings-title">Settings</h2>
+        </div>
+      </header>
+
+      <div id="settings-token-warning" class="banner-notification" style="display:none;"></div>
+      <div class="settings-section" id="settings-token-section">
+        <span class="settings-section-title">GitHub Sync Token</span>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; gap:8px;">
+            <input type="password" id="input-github-token" placeholder="ghp_xxxxxxxxxxxx (gist scope)" autocomplete="off" spellcheck="false" style="flex:1; background:var(--bg-card); border:1px solid var(--border-card); border-radius:10px; color:var(--text-main); padding:10px 12px; font-size:0.85rem; font-family:monospace; outline:none;" />
+            <button id="btn-toggle-token-visibility" type="button" class="btn-action" style="flex:0; padding:0 12px;" title="Show/Hide Token">
+              <svg id="token-eye-icon" viewBox="0 0 24 24" style="width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2;">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+
+          <div style="display:flex; gap:8px;">
+            <button id="btn-save-token" type="button" class="btn-action" style="background:var(--accent-color); color:#000; font-weight:600; border:none;">Save Token</button>
+            <button id="btn-test-token" type="button" class="btn-action">
+              <span id="test-token-spinner" style="display:none; width:12px; height:12px; border:2px solid var(--text-muted); border-top-color:var(--text-main); border-radius:50%; animation:spin 0.8s linear infinite;"></span>
+              <span>Test Connection</span>
+            </button>
+          </div>
+          <span id="token-status-note" style="font-size:0.75rem; color:var(--text-muted); min-height:16px;"></span>
+        </div>
       </div>
-
-      <form id="add-app-form">
-        <div class="form-group">
-          <label class="form-label" for="app-name-input">App Name</label>
-          <input type="text" id="app-name-input" class="form-input" placeholder="e.g. Wallet" required autocomplete="off" />
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="app-url-input">App URL</label>
-          <input type="url" id="app-url-input" class="form-input" placeholder="https://..." required autocomplete="off" />
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Choose Icon</label>
-          <div class="icon-picker-grid" id="icon-picker-options">
-            <!-- Populated from SVG Icon Catalog -->
+      <div class="settings-section" id="settings-backup-section">
+        <span class="settings-section-title">Storage & Backups</span>
+        
+        <!-- Storage Stats Card -->
+        <div style="background:var(--bg-card); border:1px solid var(--border-card); border-radius:12px; padding:12px 14px; display:flex; flex-direction:column; gap:6px; font-size:0.82rem;">
+          <div style="display:flex; justify-content:space-between;">
+            <span style="color:var(--text-muted);">Local Storage Used:</span>
+            <span id="stat-local-storage" style="font-weight:600;">Calculating…</span>
+          </div>
+          <div style="display:flex; justify-content:space-between;">
+            <span style="color:var(--text-muted);">Last Gist Backup:</span>
+            <span id="stat-last-gist-time" style="font-weight:600;">Never</span>
           </div>
         </div>
 
-        <button type="submit" class="btn-submit">Add to Portal</button>
-      </form>
-    </div>
-  </aside>
+        <!-- Backup Actions -->
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+          <button id="btn-share-backup" type="button" class="btn-action" title="Share via Drive, AirDrop, or local file">
+            <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            <span>Save Backup</span>
+          </button>
 
-  <!-- Card Actions Sheet (Long-Press Menu) -->
-  <aside id="action-sheet-modal" class="overlay" aria-hidden="true">
-    <div class="modal-sheet">
-      <div class="sheet-header">
-        <h2 class="sheet-title" id="action-sheet-title">Manage App</h2>
-        <button class="close-btn" id="action-close-btn" aria-label="Close menu">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
+          <button id="btn-download-backup" type="button" class="btn-action">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Download .json</span>
+          </button>
+        </div>
+
+        <button id="btn-import-backup-trigger" type="button" class="btn-action" style="width:100%;">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <span>Import Backup (.json)</span>
+        </button>
+        <input type="file" id="input-import-backup" accept=".json,application/json" style="display:none;" />
+      </div>
+      <div class="settings-section" id="settings-theme-section">
+        <span class="settings-section-title">Mood (Base Tone)</span>
+        <div class="mood-grid" id="mood-picker">
+          <button type="button" class="mood-btn" data-mood="Paper">
+            <span class="mood-indicator-circle" style="background:#ffffff;"></span>
+            <span>Paper</span>
+          </button>
+          <button type="button" class="mood-btn" data-mood="Fog">
+            <span class="mood-indicator-circle" style="background:#f3f4f6;"></span>
+            <span>Fog</span>
+          </button>
+          <button type="button" class="mood-btn" data-mood="Cream">
+            <span class="mood-indicator-circle" style="background:#fbf8f2;"></span>
+            <span>Cream</span>
+          </button>
+          <button type="button" class="mood-btn" data-mood="Obsidian">
+            <span class="mood-indicator-circle" style="background:#000000; border-color:#333;"></span>
+            <span>Obsidian</span>
+          </button>
+          <button type="button" class="mood-btn" data-mood="Slate">
+            <span class="mood-indicator-circle" style="background:#13171f; border-color:#333;"></span>
+            <span>Slate</span>
+          </button>
+          <button type="button" class="mood-btn" data-mood="Dusk">
+            <span class="mood-indicator-circle" style="background:#0d1527; border-color:#333;"></span>
+            <span>Dusk</span>
+          </button>
+        </div>
+
+        <span class="settings-section-title" style="margin-top:8px;">Accent Color</span>
+        <div class="accent-grid" id="accent-picker">
+          <!-- Sky / Ocean -->
+          <button type="button" class="accent-swatch" data-accent="#38bdf8" style="background:#38bdf8;" aria-label="Sky">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <!-- Mint / Sage -->
+          <button type="button" class="accent-swatch" data-accent="#34d399" style="background:#34d399;" aria-label="Mint">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <!-- Iris / Lavender -->
+          <button type="button" class="accent-swatch" data-accent="#a78bfa" style="background:#a78bfa;" aria-label="Lavender">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <!-- Coral / Rose -->
+          <button type="button" class="accent-swatch" data-accent="#fb7185" style="background:#fb7185;" aria-label="Rose">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <!-- Amber / Honey -->
+          <button type="button" class="accent-swatch" data-accent="#fbbf24" style="background:#fbbf24;" aria-label="Amber">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <!-- Sand / Warm Stone -->
+          <button type="button" class="accent-swatch" data-accent="#d6d3d1" style="background:#d6d3d1;" aria-label="Sand">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="settings-section" id="settings-about-section">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0;">
+          <span class="settings-section-title">Version</span>
+          <span id="app-version-label" style="font-size:0.85rem; color:var(--text-muted); cursor:pointer;">v1.0.0</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- HIDDEN DIAGNOSTICS SCREEN -->
+    <section id="diagnostics-screen" class="screen hidden">
+      <header class="settings-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button id="btn-close-diagnostics" class="icon-button" aria-label="Back to settings">
+            <svg viewBox="0 0 24 24">
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+          </button>
+          <h2 class="settings-title">Diagnostics Log</h2>
+        </div>
+        <span id="log-count-badge" style="font-size:0.75rem; color:var(--text-muted); background:var(--bg-card); padding:4px 8px; border-radius:6px; border:1px solid var(--border-card);">0 / 200</span>
+      </header>
+
+      <!-- Diagnostics Toolbar -->
+      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px; margin-bottom:12px;">
+        <button id="btn-copy-log" type="button" class="btn-action" style="padding:8px 6px; font-size:0.78rem;">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span>Copy</span>
+        </button>
+        <button id="btn-share-log" type="button" class="btn-action" style="padding:8px 6px; font-size:0.78rem;">
+          <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          <span>Share</span>
+        </button>
+        <button id="btn-clear-log" type="button" class="btn-action" style="padding:8px 6px; font-size:0.78rem; color:var(--danger);">
+          <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          <span>Clear</span>
         </button>
       </div>
-      <div class="action-sheet-buttons">
-        <button type="button" class="action-btn" id="action-open-btn">Open App</button>
-        <button type="button" class="action-btn danger" id="action-remove-btn">Remove from Portal</button>
+
+      <!-- Scrollable Event Stream -->
+      <div id="diagnostics-log-container" style="flex:1; max-height:calc(100vh - 220px); overflow-y:auto; display:flex; flex-direction:column; gap:6px; font-family:monospace; font-size:0.72rem;">
+        <!-- Entries rendered here -->
+      </div>
+    </section>
+
+    <div id="profile-edit-modal" class="screen hidden" style="position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:2000; align-items:center; justify-content:center; padding:20px;">
+      <div style="background:var(--bg-base); border:1px solid var(--border-card); border-radius:18px; width:100%; max-width:400px; padding:22px; box-shadow:0 20px 40px rgba(0,0,0,0.6); display:flex; flex-direction:column; gap:16px;">
+      <h3 style="font-size:1.1rem; font-weight:700;">Edit Profile</h3>
+      
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <label for="input-profile-name" style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); font-weight:600;">Display Name</label>
+        <input type="text" id="input-profile-name" maxlength="32" style="background:var(--bg-card); border:1px solid var(--border-card); border-radius:10px; color:var(--text-main); padding:10px 12px; font-size:0.95rem; outline:none;" placeholder="e.g. Alex" />
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <label for="input-profile-tagline" style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); font-weight:600;">Tagline</label>
+        <input type="text" id="input-profile-tagline" maxlength="64" style="background:var(--bg-card); border:1px solid var(--border-card); border-radius:10px; color:var(--text-main); padding:10px 12px; font-size:0.95rem; outline:none;" placeholder="e.g. Focused workspace" />
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:8px;">
+        <button id="btn-cancel-profile" type="button" style="background:none; border:1px solid var(--border-card); color:var(--text-muted); border-radius:10px; padding:8px 16px; font-size:0.85rem; cursor:pointer;">Cancel</button>
+        <button id="btn-save-profile" type="button" style="background:var(--accent-color); border:none; color:#000; font-weight:600; border-radius:10px; padding:8px 18px; font-size:0.85rem; cursor:pointer;">Save</button>
       </div>
     </div>
-  </aside>
-
-  <!-- ===== ACCOUNT SCREEN: sign in / sign out, user info ===== -->
-  <aside id="account-screen" class="hidden">
-    <!-- Populated in Stage 3 -->
-  </aside>
+    </div>
+  </div>
 
   <script>
-    // =========================================================================
-    // SVG ICON CATALOG (10 standard icons, zero emojis)
-    // =========================================================================
-    const ICONS = {
-      wallet: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><circle cx="16" cy="14" r="1"/></svg>`,
-      tasks: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
-      habits: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>`,
-      notes: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
-      orbit: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
-      nexus: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
-      analytics: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>`,
-      vault: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`,
-      code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`,
-      compass: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>`
+    const LiteApp = {
+      state: {
+        registry: [],
+        savedOrder: [],
+        unsyncedAppIds: new Set(),
+        token: localStorage.getItem('lite_github_token') || '',
+        lastSyncTimestamp: localStorage.getItem('lite_last_sync') || null,
+        activeMood: localStorage.getItem('lite_mood') || 'Obsidian',
+        activeAccent: localStorage.getItem('lite_accent') || '#38bdf8',
+        userName: localStorage.getItem('lite_user_name') || 'My Workspace',
+        userTagline: localStorage.getItem('lite_user_tagline') || 'Personal Productivity Ecosystem',
+        avatarDataUrl: localStorage.getItem('lite_user_avatar') || null
+      }
     };
 
-    const STORAGE_KEY = 'portal_apps';
-    let selectedIconKey = 'wallet';
-    let activeAppTarget = null;
-    let pressTimer = null;
-    let isLongPress = false;
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(el => {
+        if (el.id !== 'profile-edit-modal') el.classList.add('hidden');
+      });
+      const target = document.getElementById(screenId);
+      if (target) target.classList.remove('hidden');
+    }
 
-    // =========================================================================
-    // STAGE 2: APP SHORTCUTS & LOCAL STORAGE LOGIC
-    // =========================================================================
+    document.getElementById('btn-open-settings').addEventListener('click', () => {
+      showScreen('settings-screen');
+    });
 
-    // STAGE 2: loadApps() — reads app list from localStorage, renders grid
-    function loadApps() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      let apps = [];
+    document.getElementById('btn-close-settings').addEventListener('click', () => {
+      showScreen('main-screen');
+    });
 
-      if (raw === null) {
-        // First run seed: Wallet app
-        apps = [
-          {
-            id: 'wallet-default',
-            name: 'Wallet',
-            url: 'https://sazzadcheju49.github.io/orbit-app/',
-            icon: 'wallet',
-            order: 0
-          }
-        ];
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
-      } else {
+    /* =========================================================
+       SEGMENT 2: Registry Fetch & List Rendering (Implemented)
+       ========================================================= */
+
+    // Bundled pure SVG Icon Library (SVG-only rule compliant)
+    const BUNDLED_ICONS = {
+      'wallet': `<path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 3H4a2 2 0 0 0-2 2v2"/><circle cx="17" cy="14" r="1.5" fill="currentColor"/>`,
+      'check-square': `<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>`,
+      'flame': `<path d="M8.5 14.5A4.5 4.5 0 0 0 13 19a4.5 4.5 0 0 0 4.5-4.5c0-2-1.5-4-3-5.5-1.5 2-2.5 3-4.5 3-1.5 0-2.5-1-2.5-2.5C7.5 7 11 3 11 3s-6.5 4.5-6.5 10a6 6 0 0 0 6 6c.7 0 1.5-.1 2-.4-1.2-.8-2-2.1-2-3.6z"/>`,
+      'file-text': `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/>`,
+      'orbit': `<circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(30 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-30 12 12)"/>`,
+      'calendar': `<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>`,
+      'heart-pulse': `<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/>`,
+      'book-open': `<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>`,
+      'users': `<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>`,
+      'folder': `<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>`,
+      'bell': `<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>`,
+      'pie-chart': `<path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>`,
+      'bookmark': `<path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>`,
+      'utensils': `<path d="M18 2v20M14 2v6a2 2 0 0 0 2 2h4M6 2v6a3 3 0 0 0 6 0V2M9 11v11"/>`,
+      'activity': `<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>`,
+      'box': `<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>`
+    };
+
+    function renderIcon(iconKey, color) {
+      const innerSvg = BUNDLED_ICONS[iconKey] || BUNDLED_ICONS['box'];
+      return `
+        <svg viewBox="0 0 24 24" style="stroke: ${color || 'var(--accent-color)'};">
+          ${innerSvg}
+        </svg>
+      `;
+    }
+
+    const REGISTRY_PRIMARY_URL = 'https://sazzadcheju49.github.io/portal-app/app-registry.json';
+    const REGISTRY_FALLBACK_URL = './app-registry.json';
+    const REGISTRY_CACHE_KEY = 'lite_app_registry_cache';
+    const SAVED_ORDER_KEY = 'lite_saved_order';
+
+    async function fetchRegistryWithFallback() {
+      // Try primary network URL; if fails, attempt relative URL for local development/testing
+      let response = null;
+      try {
+        response = await fetch(REGISTRY_PRIMARY_URL, { cache: 'no-store' });
+        if (!response.ok) throw new Error('Primary registry returned ' + response.status);
+      } catch (primaryErr) {
         try {
-          apps = JSON.parse(raw) || [];
-        } catch (e) {
-          apps = [];
+          response = await fetch(REGISTRY_FALLBACK_URL, { cache: 'no-store' });
+          if (!response.ok) throw new Error('Fallback registry returned ' + response.status);
+        } catch (secErr) {
+          throw new Error('All network attempts failed');
         }
       }
-
-      renderGrid(apps);
-      return apps;
+      const data = await response.json();
+      if (!Array.isArray(data)) throw new Error('Registry data is not an array');
+      return data;
     }
 
-    // STAGE 2: saveApp(app) — adds new app to localStorage, re-renders
-    function saveApp(app) {
-      const apps = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-      apps.push(app);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
-      renderGrid(apps);
-    }
+    function renderAppList(apps, isOfflineCached = false) {
+      const listEl = document.getElementById('app-list');
+      const bannerEl = document.getElementById('registry-status-banner');
 
-    // STAGE 2: removeApp(id) — removes app from localStorage, re-renders
-    function removeApp(id) {
-      let apps = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-      apps = apps.filter(item => item.id !== id);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
-      renderGrid(apps);
-    }
-
-    function renderGrid(apps) {
-      const grid = document.getElementById('app-grid');
-      const emptyState = document.getElementById('empty-state');
-      const addCard = document.getElementById('add-app-card');
-
-      // Clear existing app cards (keep only the Add App card)
-      const existingCards = grid.querySelectorAll('.app-card');
-      existingCards.forEach(c => c.remove());
-
-      if (apps.length === 0) {
-        emptyState.classList.remove('hidden');
-      } else {
-        emptyState.classList.add('hidden');
-      }
-
-      apps.forEach(app => {
-        const card = document.createElement('div');
-        card.className = 'app-card';
-        card.dataset.id = app.id;
-        card.dataset.url = app.url;
-        card.dataset.name = app.name;
-
-        const iconSvg = ICONS[app.icon] || ICONS.compass;
-
-        card.innerHTML = `
-          <div class="card-icon">${iconSvg}</div>
-          <span class="card-label">${escapeHtml(app.name)}</span>
+      if (isOfflineCached) {
+        bannerEl.innerHTML = `
+          <div class="registry-banner">
+            <span style="display:inline-flex; align-items:center; gap:6px;">
+              <svg viewBox="0 0 24 24" style="width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2;">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              Offline — showing last known apps
+            </span>
+          </div>
         `;
+      } else {
+        bannerEl.innerHTML = '';
+      }
 
-        // Interaction bindings (Click vs Long Press)
-        bindCardEvents(card, app);
+      if (!apps || apps.length === 0) {
+        listEl.innerHTML = `
+          <div class="registry-error-card">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div class="registry-error-title">No apps found</div>
+            <div class="registry-error-desc">The registry returned an empty list.</div>
+            <button class="btn-retry" onclick="loadRegistry()">
+              <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              <span>Retry</span>
+            </button>
+          </div>
+        `;
+        return;
+      }
 
-        // Insert before the "+ Add App" card
-        grid.insertBefore(card, addCard);
-      });
+      listEl.innerHTML = apps.map(app => {
+        const themeColor = app.themeColor || 'var(--accent-color)';
+        const iconSvg = renderIcon(app.icon, themeColor);
+        const isUnsynced = LiteApp.state.unsyncedAppIds.has(app.id);
+
+        return `
+          <article class="app-row" data-id="${app.id}" data-url="${app.baseUrl}">
+            <div class="app-icon-badge" style="background: ${themeColor}15; border-color: ${themeColor}30;">
+              ${iconSvg}
+            </div>
+            <div class="app-meta">
+              <span class="app-name">${app.name}</span>
+              <span class="app-subtitle">${app.subtitle || ''}</span>
+            </div>
+            <div class="app-row-end">
+              <span class="unsynced-dot ${isUnsynced ? 'active' : ''}" id="dot-${app.id}" title="Unsynced changes"></span>
+              <svg class="row-arrow" viewBox="0 0 24 24">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </div>
+          </article>
+        `;
+      }).join('');
     }
 
-    function bindCardEvents(card, app) {
-      const startPress = () => {
-        isLongPress = false;
-        pressTimer = setTimeout(() => {
-          isLongPress = true;
-          openActionSheet(app);
-        }, 500);
-      };
+    function renderFirstLaunchError() {
+      const listEl = document.getElementById('app-list');
+      const bannerEl = document.getElementById('registry-status-banner');
+      bannerEl.innerHTML = '';
+      listEl.innerHTML = `
+        <div class="registry-error-card">
+          <svg viewBox="0 0 24 24">
+            <line x1="1" y1="1" x2="23" y2="23"/>
+            <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/>
+            <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/>
+            <path d="M10.71 5.05A16 16 0 0 1 22.58 9"/>
+            <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/>
+            <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+            <line x1="12" y1="20" x2="12.01" y2="20"/>
+          </svg>
+          <div class="registry-error-title">No Internet Connection</div>
+          <div class="registry-error-desc">Unable to load apps on first launch. Connect to the internet and tap retry.</div>
+          <button class="btn-retry" onclick="loadRegistry()">
+            <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            <span>Retry</span>
+          </button>
+        </div>
+      `;
+    }
 
-      const cancelPress = () => {
-        clearTimeout(pressTimer);
-      };
+    async function loadRegistry() {
+      const listEl = document.getElementById('app-list');
+      // Show light loading placeholder if empty
+      if (LiteApp.state.registry.length === 0) {
+        listEl.innerHTML = `
+          <div style="text-align:center; padding:32px 0; color:var(--text-muted); font-size:0.85rem;">
+            Loading apps...
+          </div>
+        `;
+      }
 
-      card.addEventListener('mousedown', startPress);
-      card.addEventListener('mouseup', cancelPress);
-      card.addEventListener('mouseleave', cancelPress);
+      let registryData = null;
+      let isCached = false;
 
-      card.addEventListener('touchstart', startPress, { passive: true });
-      card.addEventListener('touchend', cancelPress);
-      card.addEventListener('touchcancel', cancelPress);
-
-      card.addEventListener('click', (e) => {
-        if (isLongPress) {
-          e.preventDefault();
-          return;
+      try {
+        registryData = await fetchRegistryWithFallback();
+        // Persist fresh copy to local cache
+        localStorage.setItem(REGISTRY_CACHE_KEY, JSON.stringify(registryData));
+      } catch (err) {
+        // Fall back to cached copy
+        const cachedRaw = localStorage.getItem(REGISTRY_CACHE_KEY);
+        if (cachedRaw) {
+          try {
+            registryData = JSON.parse(cachedRaw);
+            isCached = true;
+          } catch (e) {
+            registryData = null;
+          }
         }
-        // Direct navigation
-        if (app.url) {
-          window.location.href = app.url;
-        }
-      });
+      }
+
+      if (!registryData) {
+        renderFirstLaunchError();
+        return;
+      }
+
+      LiteApp.state.registry = registryData;
+      renderAppList(registryData, isCached);
     }
 
-    function openActionSheet(app) {
-      activeAppTarget = app;
-      const sheet = document.getElementById('action-sheet-modal');
-      const title = document.getElementById('action-sheet-title');
-      title.textContent = app.name;
-      sheet.classList.add('active');
-      sheet.setAttribute('aria-hidden', 'false');
-    }
-
-    function closeActionSheet() {
-      const sheet = document.getElementById('action-sheet-modal');
-      sheet.classList.remove('active');
-      sheet.setAttribute('aria-hidden', 'true');
-      activeAppTarget = null;
-    }
-
-    function openAddModal() {
-      const modal = document.getElementById('add-app-modal');
-      modal.classList.add('active');
-      modal.setAttribute('aria-hidden', 'false');
-      document.getElementById('app-name-input').focus();
-    }
-
-    function closeAddModal() {
-      const modal = document.getElementById('add-app-modal');
-      modal.classList.remove('active');
-      modal.setAttribute('aria-hidden', 'true');
-      document.getElementById('add-app-form').reset();
-      selectIcon('wallet');
-    }
-
-    function selectIcon(iconKey) {
-      selectedIconKey = iconKey;
-      const options = document.querySelectorAll('.icon-opt');
-      options.forEach(opt => {
-        if (opt.dataset.icon === iconKey) {
-          opt.classList.add('selected');
-        } else {
-          opt.classList.remove('selected');
-        }
-      });
-    }
-
-    function setupIconPicker() {
-      const picker = document.getElementById('icon-picker-options');
-      picker.innerHTML = '';
-      Object.keys(ICONS).forEach((key) => {
-        const btn = document.createElement('div');
-        btn.className = `icon-opt ${key === selectedIconKey ? 'selected' : ''}`;
-        btn.dataset.icon = key;
-        btn.innerHTML = ICONS[key];
-        btn.addEventListener('click', () => selectIcon(key));
-        picker.appendChild(btn);
-      });
-    }
-
-    function escapeHtml(str) {
-      const div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
-    }
-
-    // =========================================================================
-    // STAGE 3: FIREBASE AUTH STUBS
-    // =========================================================================
-
-    // STAGE 3: initFirebaseAuth() — sets up Firebase Auth listener
-    function initFirebaseAuth() {}
-
-    // STAGE 3: signIn() / signOut() — Google sign in/out handlers
-    function signIn() {}
-    function signOut() {}
-
-    // STAGE 3: updateStatusDot() — updates top bar status indicator
-    function updateStatusDot() {}
-
-    // =========================================================================
-    // STAGE 4: SERVICE WORKER STUB
-    // =========================================================================
-
-    // STAGE 4: registerServiceWorker() — PWA offline setup
-    function registerServiceWorker() {}
-
-    // =========================================================================
-    // INITIALIZATION & EVENT LISTENERS
-    // =========================================================================
+    // Initialize registry fetch on load
     window.addEventListener('DOMContentLoaded', () => {
-      // Build icon palette
-      setupIconPicker();
+      loadRegistry();
+    });
 
-      // Load app grid from storage
-      loadApps();
+    /* =========================================================
+       SEGMENT 3: Navigation & Row Reordering (Implemented)
+       ========================================================= */
 
-      // Modal open/close controls
-      document.getElementById('add-app-card').addEventListener('click', openAddModal);
-      document.getElementById('modal-close-btn').addEventListener('click', closeAddModal);
-      document.getElementById('add-app-modal').addEventListener('click', (e) => {
-        if (e.target.id === 'add-app-modal') closeAddModal();
-      });
+    const UNSYNCED_STORAGE_KEY = 'lite_unsynced_apps';
 
-      // Action sheet controls
-      document.getElementById('action-close-btn').addEventListener('click', closeActionSheet);
-      document.getElementById('action-sheet-modal').addEventListener('click', (e) => {
-        if (e.target.id === 'action-sheet-modal') closeActionSheet();
-      });
+    // Initialize unsynced state from localStorage
+    try {
+      const storedUnsynced = JSON.parse(localStorage.getItem(UNSYNCED_STORAGE_KEY) || '[]');
+      LiteApp.state.unsyncedAppIds = new Set(storedUnsynced);
+    } catch (e) {
+      LiteApp.state.unsyncedAppIds = new Set();
+    }
 
-      document.getElementById('action-open-btn').addEventListener('click', () => {
-        if (activeAppTarget && activeAppTarget.url) {
-          const url = activeAppTarget.url;
-          closeActionSheet();
-          window.location.href = url;
+    function saveUnsyncedState() {
+      localStorage.setItem(
+        UNSYNCED_STORAGE_KEY,
+        JSON.stringify(Array.from(LiteApp.state.unsyncedAppIds))
+      );
+    }
+
+    function markAppUnsynced(appId) {
+      LiteApp.state.unsyncedAppIds.add(appId);
+      saveUnsyncedState();
+      const dotEl = document.getElementById(`dot-${appId}`);
+      if (dotEl) dotEl.classList.add('active');
+    }
+
+    function reconcileAndSortApps(registryApps) {
+      let savedOrder = [];
+      try {
+        savedOrder = JSON.parse(localStorage.getItem(SAVED_ORDER_KEY) || '[]');
+      } catch (e) {
+        savedOrder = [];
+      }
+
+      const registryMap = new Map(registryApps.map(app => [app.id, app]));
+      const orderedApps = [];
+
+      // 1. Preserve existing valid order
+      savedOrder.forEach(id => {
+        if (registryMap.has(id)) {
+          orderedApps.push(registryMap.get(id));
+          registryMap.delete(id);
         }
       });
 
-      document.getElementById('action-remove-btn').addEventListener('click', () => {
-        if (activeAppTarget) {
-          removeApp(activeAppTarget.id);
-          closeActionSheet();
-        }
+      // 2. Append new registry apps to the bottom
+      registryMap.forEach(app => {
+        orderedApps.push(app);
       });
 
-      // Add App Form submit
-      document.getElementById('add-app-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const nameInput = document.getElementById('app-name-input').value.trim();
-        let urlInput = document.getElementById('app-url-input').value.trim();
+      // 3. Persist cleaned/reconciled order
+      LiteApp.state.savedOrder = orderedApps.map(a => a.id);
+      localStorage.setItem(SAVED_ORDER_KEY, JSON.stringify(LiteApp.state.savedOrder));
 
-        if (!nameInput || !urlInput) return;
+      return orderedApps;
+    }
 
-        // Ensure scheme exists
-        if (!/^https?:\/\//i.test(urlInput)) {
-          urlInput = 'https://' + urlInput;
-        }
+    function saveNewOrderFromDOM() {
+      const rows = document.querySelectorAll('#app-list .app-row');
+      const newOrder = Array.from(rows).map(row => row.dataset.id);
+      LiteApp.state.savedOrder = newOrder;
+      localStorage.setItem(SAVED_ORDER_KEY, JSON.stringify(newOrder));
+    }
 
-        const newApp = {
-          id: 'app_' + Date.now(),
-          name: nameInput,
-          url: urlInput,
-          icon: selectedIconKey,
-          order: Date.now()
+    function attachRowInteractions() {
+      const listContainer = document.getElementById('app-list');
+      const rows = listContainer.querySelectorAll('.app-row');
+
+      let draggedRow = null;
+      let startY = 0;
+      let isDragging = false;
+      let currentPointerId = null;
+
+      rows.forEach(row => {
+        const appId = row.dataset.id;
+        const targetUrl = row.dataset.url;
+
+        // Pointer event based drag & tap differentiation
+        row.addEventListener('pointerdown', e => {
+          // Only primary mouse button or single touch
+          if (e.button !== 0 && e.pointerType === 'mouse') return;
+          draggedRow = row;
+          startY = e.clientY;
+          isDragging = false;
+          currentPointerId = e.pointerId;
+        });
+
+        row.addEventListener('pointermove', e => {
+          if (!draggedRow || e.pointerId !== currentPointerId) return;
+          const deltaY = Math.abs(e.clientY - startY);
+
+          // Threshold of 8px to distinguish deliberate drag from a tap
+          if (deltaY > 8 && !isDragging) {
+            isDragging = true;
+            draggedRow.classList.add('dragging');
+            try {
+              draggedRow.setPointerCapture(e.pointerId);
+            } catch (err) {}
+          }
+
+          if (isDragging) {
+            e.preventDefault();
+            const targetElement = document.elementFromPoint(e.clientX, e.clientY);
+            const overRow = targetElement ? targetElement.closest('.app-row') : null;
+
+            if (overRow && overRow !== draggedRow && listContainer.contains(overRow)) {
+              const bounding = overRow.getBoundingClientRect();
+              const offset = e.clientY - bounding.top;
+              if (offset > bounding.height / 2) {
+                listContainer.insertBefore(draggedRow, overRow.nextSibling);
+              } else {
+                listContainer.insertBefore(draggedRow, overRow);
+              }
+            }
+          }
+        });
+
+        const handlePointerEnd = e => {
+          if (!draggedRow || e.pointerId !== currentPointerId) return;
+
+          if (isDragging) {
+            draggedRow.classList.remove('dragging');
+            try {
+              draggedRow.releasePointerCapture(e.pointerId);
+            } catch (err) {}
+            saveNewOrderFromDOM();
+          } else {
+            // It's a clean tap: mark unsynced immediately and navigate
+            markAppUnsynced(appId);
+            if (targetUrl) {
+              window.location.href = targetUrl;
+            }
+          }
+
+          draggedRow = null;
+          isDragging = false;
+          currentPointerId = null;
         };
 
-        saveApp(newApp);
-        closeAddModal();
+        row.addEventListener('pointerup', handlePointerEnd);
+        row.addEventListener('pointercancel', handlePointerEnd);
+      });
+    }
+
+    // Wrap the existing loadRegistry to apply ordering and attach interactions
+    const originalRenderAppList = renderAppList;
+    renderAppList = function(apps, isOfflineCached = false) {
+      const sortedApps = reconcileAndSortApps(apps);
+      originalRenderAppList(sortedApps, isOfflineCached);
+      attachRowInteractions();
+    };
+
+    /* =========================================================
+       SEGMENT 4: Header Personalization (Implemented)
+       ========================================================= */
+
+    const PROFILE_NAME_KEY = 'lite_user_name';
+    const PROFILE_TAGLINE_KEY = 'lite_user_tagline';
+    const PROFILE_AVATAR_KEY = 'lite_user_avatar';
+
+    // Apply stored profile data to UI
+    function initProfileUI() {
+      const nameEl = document.getElementById('user-display-name');
+      const taglineEl = document.getElementById('user-display-tagline');
+      const avatarContainer = document.getElementById('avatar-container');
+
+      if (LiteApp.state.userName) nameEl.textContent = LiteApp.state.userName;
+      if (LiteApp.state.userTagline) taglineEl.textContent = LiteApp.state.userTagline;
+
+      if (LiteApp.state.avatarDataUrl) {
+        avatarContainer.innerHTML = `<img src="${LiteApp.state.avatarDataUrl}" alt="Avatar" style="width:100%; height:100%; object-fit:cover; border-radius:50%;" />`;
+      }
+    }
+
+    // Modal controls
+    const profileModal = document.getElementById('profile-edit-modal');
+    const profileTrigger = document.getElementById('profile-info-trigger');
+    const inputProfileName = document.getElementById('input-profile-name');
+    const inputProfileTagline = document.getElementById('input-profile-tagline');
+    const btnCancelProfile = document.getElementById('btn-cancel-profile');
+    const btnSaveProfile = document.getElementById('btn-save-profile');
+
+    profileTrigger.addEventListener('click', () => {
+      inputProfileName.value = LiteApp.state.userName;
+      inputProfileTagline.value = LiteApp.state.userTagline;
+      profileModal.classList.remove('hidden');
+      profileModal.style.display = 'flex';
+      inputProfileName.focus();
+    });
+
+    btnCancelProfile.addEventListener('click', () => {
+      profileModal.classList.add('hidden');
+      profileModal.style.display = 'none';
+    });
+
+    btnSaveProfile.addEventListener('click', () => {
+      const newName = inputProfileName.value.trim() || 'My Workspace';
+      const newTagline = inputProfileTagline.value.trim() || 'Personal Productivity Ecosystem';
+
+      LiteApp.state.userName = newName;
+      LiteApp.state.userTagline = newTagline;
+      localStorage.setItem(PROFILE_NAME_KEY, newName);
+      localStorage.setItem(PROFILE_TAGLINE_KEY, newTagline);
+
+      document.getElementById('user-display-name').textContent = newName;
+      document.getElementById('user-display-tagline').textContent = newTagline;
+
+      profileModal.classList.add('hidden');
+      profileModal.style.display = 'none';
+    });
+
+    // Avatar Picker with Canvas compression (160x160 square)
+    const avatarTrigger = document.getElementById('avatar-trigger');
+    const avatarFileInput = document.getElementById('avatar-file-input');
+
+    avatarTrigger.addEventListener('click', () => {
+      avatarFileInput.click();
+    });
+
+    avatarFileInput.addEventListener('change', e => {
+      const file = e.target.files && e.target.files[0];
+      if (!file || !file.type.startsWith('image/')) return;
+
+      const reader = new FileReader();
+      reader.onload = event => {
+        const img = new Image();
+        img.onload = () => {
+          // Offscreen canvas center-crop & resize
+          const canvas = document.createElement('canvas');
+          const size = 160;
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext('2d');
+
+          const minDim = Math.min(img.width, img.height);
+          const cropX = (img.width - minDim) / 2;
+          const cropY = (img.height - minDim) / 2;
+
+          ctx.drawImage(img, cropX, cropY, minDim, minDim, 0, 0, size, size);
+          
+          // Compressed JPEG dataURL (< 20 KB)
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+
+          LiteApp.state.avatarDataUrl = compressedDataUrl;
+          try {
+            localStorage.setItem(PROFILE_AVATAR_KEY, compressedDataUrl);
+          } catch (storageErr) {
+            console.error('Failed to store avatar in localStorage', storageErr);
+          }
+
+          document.getElementById('avatar-container').innerHTML = `
+            <img src="${compressedDataUrl}" alt="Avatar" style="width:100%; height:100%; object-fit:cover; border-radius:50%;" />
+          `;
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+      // Reset input so re-selecting identical photo works
+      avatarFileInput.value = '';
+    });
+
+    // Run on startup
+    initProfileUI();
+
+    /* =========================================================
+       SEGMENT 5: Settings - Token & Backups (Implemented)
+       ========================================================= */
+
+    const GITHUB_TOKEN_KEY = 'lite_github_token';
+    const GIST_BACKUP_STATS_KEY = 'lite_gist_backup_stats';
+
+    // Token element references
+    const inputGithubToken = document.getElementById('input-github-token');
+    const btnToggleTokenVis = document.getElementById('btn-toggle-token-visibility');
+    const btnSaveToken = document.getElementById('btn-save-token');
+    const btnTestToken = document.getElementById('btn-test-token');
+    const tokenStatusNote = document.getElementById('token-status-note');
+    const settingsTokenWarning = document.getElementById('settings-token-warning');
+
+    // Populate initial saved token
+    if (LiteApp.state.token) {
+      inputGithubToken.value = LiteApp.state.token;
+    }
+
+    // Toggle password visibility
+    btnToggleTokenVis.addEventListener('click', () => {
+      if (inputGithubToken.type === 'password') {
+        inputGithubToken.type = 'text';
+      } else {
+        inputGithubToken.type = 'password';
+      }
+    });
+
+    // Save token to localStorage
+    btnSaveToken.addEventListener('click', () => {
+      const token = inputGithubToken.value.trim();
+      LiteApp.state.token = token;
+      localStorage.setItem(GITHUB_TOKEN_KEY, token);
+      tokenStatusNote.style.color = 'var(--success)';
+      tokenStatusNote.textContent = 'Token saved locally.';
+      settingsTokenWarning.style.display = 'none';
+      setTimeout(() => { tokenStatusNote.textContent = ''; }, 3000);
+    });
+
+    // Test token connection against GitHub API
+    async function validateGitHubToken(token) {
+      if (!token) throw new Error('Token is empty');
+      const response = await fetch('https://api.github.com/user', {
+        headers: {
+          'Authorization': `token ${token}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      });
+      if (response.status === 401) {
+        throw { code: 401, message: 'Your token has expired or is invalid — generate a new one' };
+      }
+      if (!response.ok) {
+        throw new Error(`GitHub API responded with status ${response.status}`);
+      }
+      const data = await response.json();
+      const scopes = response.headers.get('x-oauth-scopes') || '';
+      return { login: data.login, hasGist: scopes.includes('gist') };
+    }
+
+    function showTokenWarning(message) {
+      settingsTokenWarning.innerHTML = `
+        <div style="display:flex; align-items:center; gap:8px; color:var(--danger); width:100%;">
+          <svg viewBox="0 0 24 24" style="width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; flex-shrink:0;">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span style="font-size:0.8rem; line-height:1.3;">${message}</span>
+        </div>
+      `;
+      settingsTokenWarning.style.display = 'flex';
+    }
+
+    btnTestToken.addEventListener('click', async () => {
+      const token = inputGithubToken.value.trim();
+      if (!token) {
+        tokenStatusNote.style.color = 'var(--warning)';
+        tokenStatusNote.textContent = 'Please enter a token first.';
+        return;
+      }
+
+      const spinner = document.getElementById('test-token-spinner');
+      spinner.style.display = 'inline-block';
+      tokenStatusNote.style.color = 'var(--text-muted)';
+      tokenStatusNote.textContent = 'Testing connection…';
+
+      try {
+        const result = await validateGitHubToken(token);
+        tokenStatusNote.style.color = 'var(--success)';
+        tokenStatusNote.textContent = `Valid token (user: @${result.login}${result.hasGist ? ', gist scope ✓' : ', missing gist scope ⚠'})`;
+        settingsTokenWarning.style.display = 'none';
+      } catch (err) {
+        tokenStatusNote.textContent = '';
+        if (err.code === 401) {
+          showTokenWarning('Your token has expired or is invalid — generate a new one');
+        } else {
+          showTokenWarning(err.message || 'Connection test failed');
+        }
+      } finally {
+        spinner.style.display = 'none';
+      }
+    });
+
+    // Storage Statistics Calculation
+    function updateStorageStats() {
+      let totalBytes = 0;
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const value = localStorage.getItem(key);
+        totalBytes += (key.length + value.length) * 2; // UTF-16 character approximation
+      }
+
+      const kb = (totalBytes / 1024).toFixed(1);
+      const statLocal = document.getElementById('stat-local-storage');
+      if (statLocal) statLocal.textContent = `${kb} KB (${localStorage.length} keys)`;
+
+      const statGist = document.getElementById('stat-last-gist-time');
+      const gistStatsRaw = localStorage.getItem(GIST_BACKUP_STATS_KEY);
+      if (gistStatsRaw && statGist) {
+        try {
+          const stats = JSON.parse(gistStatsRaw);
+          const dateStr = new Date(stats.timestamp).toLocaleString(undefined, {
+            month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+          });
+          statGist.textContent = `${dateStr} (${(stats.bytes / 1024).toFixed(1)} KB)`;
+        } catch (e) {
+          statGist.textContent = 'None';
+        }
+      }
+    }
+
+    // Backup Generation Bundle
+    function generateBackupPayload() {
+      return {
+        app: 'Lite',
+        version: '1.0.0',
+        exportedAt: new Date().toISOString(),
+        settings: {
+          token: LiteApp.state.token,
+          savedOrder: LiteApp.state.savedOrder,
+          userName: LiteApp.state.userName,
+          userTagline: LiteApp.state.userTagline,
+          avatarDataUrl: LiteApp.state.avatarDataUrl,
+          activeMood: LiteApp.state.activeMood,
+          activeAccent: LiteApp.state.activeAccent,
+          unsyncedAppIds: Array.from(LiteApp.state.unsyncedAppIds)
+        }
+      };
+    }
+
+    // Direct JSON Download fallback
+    function triggerDirectDownload(jsonString, filename) {
+      const blob = new Blob([jsonString], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    // Save Backup via Web Share Sheet (with direct-download fallback)
+    const btnShareBackup = document.getElementById('btn-share-backup');
+    btnShareBackup.addEventListener('click', async () => {
+      const backupData = generateBackupPayload();
+      const jsonStr = JSON.stringify(backupData, null, 2);
+      const filename = `lite-backup-${new Date().toISOString().slice(0, 10)}.json`;
+
+      if (navigator.canShare && window.File) {
+        try {
+          const file = new File([jsonStr], filename, { type: 'application/json' });
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              files: [file],
+              title: 'Lite Backup',
+              text: 'Lite Productivity Ecosystem Backup'
+            });
+            return;
+          }
+        } catch (shareErr) {
+          if (shareErr.name === 'AbortError') return; // User canceled share sheet
+        }
+      }
+      // Fallback to direct download
+      triggerDirectDownload(jsonStr, filename);
+    });
+
+    // Download .json directly
+    const btnDownloadBackup = document.getElementById('btn-download-backup');
+    btnDownloadBackup.addEventListener('click', () => {
+      const backupData = generateBackupPayload();
+      const jsonStr = JSON.stringify(backupData, null, 2);
+      const filename = `lite-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      triggerDirectDownload(jsonStr, filename);
+    });
+
+    // Import Backup
+    const btnImportTrigger = document.getElementById('btn-import-backup-trigger');
+    const inputImport = document.getElementById('input-import-backup');
+
+    btnImportTrigger.addEventListener('click', () => {
+      inputImport.click();
+    });
+
+    inputImport.addEventListener('change', e => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = evt => {
+        try {
+          const imported = JSON.parse(evt.target.result);
+          if (!imported || !imported.settings) {
+            throw new Error('Invalid backup file format');
+          }
+
+          const s = imported.settings;
+          if (s.token !== undefined) {
+            LiteApp.state.token = s.token;
+            localStorage.setItem(GITHUB_TOKEN_KEY, s.token);
+            inputGithubToken.value = s.token;
+          }
+          if (s.userName) {
+            LiteApp.state.userName = s.userName;
+            localStorage.setItem('lite_user_name', s.userName);
+          }
+          if (s.userTagline) {
+            LiteApp.state.userTagline = s.userTagline;
+            localStorage.setItem('lite_user_tagline', s.userTagline);
+          }
+          if (s.avatarDataUrl) {
+            LiteApp.state.avatarDataUrl = s.avatarDataUrl;
+            localStorage.setItem('lite_user_avatar', s.avatarDataUrl);
+          }
+          if (Array.isArray(s.savedOrder)) {
+            LiteApp.state.savedOrder = s.savedOrder;
+            localStorage.setItem(SAVED_ORDER_KEY, JSON.stringify(s.savedOrder));
+          }
+          if (Array.isArray(s.unsyncedAppIds)) {
+            LiteApp.state.unsyncedAppIds = new Set(s.unsyncedAppIds);
+            saveUnsyncedState();
+          }
+
+          initProfileUI();
+          if (LiteApp.state.registry.length > 0) {
+            renderAppList(LiteApp.state.registry);
+          }
+          updateStorageStats();
+          alert('Backup restored successfully!');
+        } catch (parseErr) {
+          alert('Failed to import backup: ' + parseErr.message);
+        }
+      };
+      reader.readAsText(file);
+      inputImport.value = '';
+    });
+
+    // Refresh storage stats whenever settings screen opens
+    document.getElementById('btn-open-settings').addEventListener('click', () => {
+      updateStorageStats();
+    });
+
+    /* =========================================================
+       SEGMENT 6: Sync All Orchestrator (Implemented)
+       ========================================================= */
+
+    const LAST_SYNC_KEY = 'lite_last_sync';
+    let isSyncingAll = false;
+
+    const btnSyncAll = document.getElementById('btn-sync-all');
+    const statusArea = document.getElementById('orchestrator-status-area');
+    const iframeHost = document.getElementById('iframe-host');
+
+    function renderSyncProgressCard(completedCount, totalCount, activeAppName, appResults) {
+      const percentage = Math.round((completedCount / totalCount) * 100);
+      
+      const resultsHtml = Object.entries(appResults).map(([name, res]) => {
+        let badgeColor = 'var(--text-muted)';
+        let symbol = '…';
+        if (res.status === 'success') {
+          badgeColor = 'var(--success)';
+          symbol = '✓';
+        } else if (res.status === 'failed' || res.status === 'timeout') {
+          badgeColor = 'var(--danger)';
+          symbol = '✗';
+        } else if (res.status === 'syncing') {
+          badgeColor = 'var(--accent-color)';
+          symbol = '⟳';
+        }
+
+        return `
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; padding:2px 0;">
+            <span style="color:var(--text-main);">${name}</span>
+            <span style="color:${badgeColor}; font-weight:600;">${res.status} ${symbol}</span>
+          </div>
+        `;
+      }).join('');
+
+      statusArea.innerHTML = `
+        <div style="background:var(--bg-card); border:1px solid var(--border-card); border-radius:14px; padding:12px 14px; margin-bottom:12px; display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.8rem; font-weight:600; color:var(--text-main);">
+              ${completedCount < totalCount ? `Syncing ecosystem (${completedCount}/${totalCount})…` : 'Sync complete'}
+            </span>
+            <span style="font-size:0.75rem; color:var(--text-muted);">${percentage}%</span>
+          </div>
+          
+          <div style="width:100%; height:4px; background:rgba(255,255,255,0.08); border-radius:2px; overflow:hidden;">
+            <div style="width:${percentage}%; height:100%; background:var(--accent-color); transition:width 0.3s ease;"></div>
+          </div>
+
+          <div style="max-height:110px; overflow-y:auto; display:flex; flex-direction:column; gap:2px; margin-top:4px;">
+            ${resultsHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    function syncSingleApp(app, token) {
+      return new Promise(resolve => {
+        const iframe = document.createElement('iframe');
+        iframe.style.position = 'absolute';
+        iframe.style.top = '-9999px';
+        iframe.style.left = '-9999px';
+        iframe.style.width = '1px';
+        iframe.style.height = '1px';
+        iframe.style.border = '0';
+
+        let isResolved = false;
+        let timeoutId = null;
+
+        const cleanup = () => {
+          if (timeoutId) clearTimeout(timeoutId);
+          window.removeEventListener('message', handleMessage);
+          if (iframe.parentNode) {
+            iframe.parentNode.removeChild(iframe);
+          }
+        };
+
+        const handleMessage = event => {
+          const data = event.data;
+          if (!data || typeof data !== 'object') return;
+
+          // Member app's dataSync.js protocol
+          if (data.type === 'dataSyncComplete') {
+            if (isResolved) return;
+            isResolved = true;
+            cleanup();
+
+            if (data.status === 401 || (data.result && data.result.status === 401)) {
+              resolve({ appId: app.id, status: 'unauthorized', raw: data });
+            } else if (data.status === 'success' || data.status === 200 || data.result) {
+              resolve({ appId: app.id, status: 'success', raw: data });
+            } else {
+              // Treat non-401 failure same as timeout/failure per spec
+              resolve({ appId: app.id, status: 'failed', raw: data });
+            }
+          }
+        };
+
+        window.addEventListener('message', handleMessage);
+
+        // 15-second strict timeout per app
+        timeoutId = setTimeout(() => {
+          if (isResolved) return;
+          isResolved = true;
+          cleanup();
+          resolve({ appId: app.id, status: 'timeout' });
+        }, 15000);
+
+        // Build autosync URL with token
+        const delimiter = app.baseUrl.includes('?') ? '&' : '?';
+        const syncUrl = `${app.baseUrl}${delimiter}syncToken=${encodeURIComponent(token)}&autosync=1`;
+
+        iframe.src = syncUrl;
+        iframeHost.appendChild(iframe);
+      });
+    }
+
+    async function runSyncAll() {
+      if (isSyncingAll) return;
+
+      const token = LiteApp.state.token || localStorage.getItem(GITHUB_TOKEN_KEY);
+      if (!token) {
+        alert('Please enter and save your GitHub Sync Token first.');
+        showScreen('settings-screen');
+        const tokenInput = document.getElementById('input-github-token');
+        if (tokenInput) tokenInput.focus();
+        return;
+      }
+
+      const apps = LiteApp.state.registry;
+      if (!apps || apps.length === 0) {
+        alert('No apps loaded to sync.');
+        return;
+      }
+
+      isSyncingAll = true;
+      btnSyncAll.style.opacity = '0.6';
+      btnSyncAll.disabled = true;
+
+      const appResults = {};
+      apps.forEach(a => {
+        appResults[a.name] = { status: 'pending' };
+      });
+
+      renderSyncProgressCard(0, apps.length, '', appResults);
+
+      let completedCount = 0;
+      let hasUnauthorized = false;
+
+      for (const app of apps) {
+        appResults[app.name] = { status: 'syncing' };
+        renderSyncProgressCard(completedCount, apps.length, app.name, appResults);
+
+        try {
+          const outcome = await syncSingleApp(app, token);
+
+          if (outcome.status === 'success') {
+            appResults[app.name] = { status: 'success' };
+            // Clear unsynced state for this app
+            LiteApp.state.unsyncedAppIds.delete(app.id);
+            saveUnsyncedState();
+            const dot = document.getElementById(`dot-${app.id}`);
+            if (dot) dot.classList.remove('active');
+          } else if (outcome.status === 'unauthorized') {
+            appResults[app.name] = { status: 'failed' };
+            hasUnauthorized = true;
+          } else {
+            appResults[app.name] = { status: outcome.status }; // 'timeout' or 'failed'
+          }
+        } catch (err) {
+          appResults[app.name] = { status: 'failed' };
+        }
+
+        completedCount++;
+        renderSyncProgressCard(completedCount, apps.length, '', appResults);
+      }
+
+      // Save final sync timestamp
+      const nowIso = new Date().toISOString();
+      LiteApp.state.lastSyncTimestamp = nowIso;
+      localStorage.setItem(LAST_SYNC_KEY, nowIso);
+
+      // Handle 401 token expiration warning if triggered anywhere
+      if (hasUnauthorized) {
+        showTokenWarning('Your token has expired or is invalid — generate a new one');
+      }
+
+      // Restore UI buttons
+      isSyncingAll = false;
+      btnSyncAll.style.opacity = '1';
+      btnSyncAll.disabled = false;
+
+      // Automatically collapse progress card after 7 seconds
+      setTimeout(() => {
+        if (!isSyncingAll && statusArea) {
+          statusArea.innerHTML = `
+            <div style="font-size:0.75rem; color:var(--text-muted); text-align:right; padding:2px 4px;">
+              Last synced: ${new Date(nowIso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            </div>
+          `;
+        }
+      }, 7000);
+    }
+
+    btnSyncAll.addEventListener('click', runSyncAll);
+
+    /* =========================================================
+       SEGMENT 7: Refresh All Orchestrator (Implemented)
+       ========================================================= */
+
+    let isRefreshingAll = false;
+    const btnRefreshAll = document.getElementById('btn-refresh-all');
+
+    function renderRefreshProgressCard(completedCount, totalCount, activeAppName, appResults) {
+      const percentage = Math.round((completedCount / totalCount) * 100);
+
+      const resultsHtml = Object.entries(appResults).map(([name, res]) => {
+        let badgeColor = 'var(--text-muted)';
+        let symbol = '…';
+        if (res.status === 'refreshed') {
+          badgeColor = 'var(--success)';
+          symbol = '✓';
+        } else if (res.status === 'timed out' || res.status === 'failed') {
+          badgeColor = 'var(--danger)';
+          symbol = '✗';
+        } else if (res.status === 'refreshing') {
+          badgeColor = 'var(--accent-color)';
+          symbol = '⟳';
+        }
+
+        return `
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; padding:2px 0;">
+            <span style="color:var(--text-main);">${name}</span>
+            <span style="color:${badgeColor}; font-weight:600;">${res.status} ${symbol}</span>
+          </div>
+        `;
+      }).join('');
+
+      statusArea.innerHTML = `
+        <div style="background:var(--bg-card); border:1px solid var(--border-card); border-radius:14px; padding:12px 14px; margin-bottom:12px; display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.8rem; font-weight:600; color:var(--text-main);">
+              ${completedCount < totalCount ? `Refreshing app caches (${completedCount}/${totalCount})…` : 'Refresh complete'}
+            </span>
+            <span style="font-size:0.75rem; color:var(--text-muted);">${percentage}%</span>
+          </div>
+
+          <div style="width:100%; height:4px; background:rgba(255,255,255,0.08); border-radius:2px; overflow:hidden;">
+            <div style="width:${percentage}%; height:100%; background:var(--accent-color); transition:width 0.3s ease;"></div>
+          </div>
+
+          <div style="max-height:110px; overflow-y:auto; display:flex; flex-direction:column; gap:2px; margin-top:4px;">
+            ${resultsHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    function refreshSingleApp(app) {
+      return new Promise(resolve => {
+        const iframe = document.createElement('iframe');
+        iframe.style.position = 'absolute';
+        iframe.style.top = '-9999px';
+        iframe.style.left = '-9999px';
+        iframe.style.width = '1px';
+        iframe.style.height = '1px';
+        iframe.style.border = '0';
+
+        let isResolved = false;
+        let timeoutId = null;
+
+        const cleanup = () => {
+          if (timeoutId) clearTimeout(timeoutId);
+          window.removeEventListener('message', handleMessage);
+          if (iframe.parentNode) {
+            iframe.parentNode.removeChild(iframe);
+          }
+        };
+
+        const handleMessage = event => {
+          const data = event.data;
+          if (!data || typeof data !== 'object') return;
+
+          // Acknowledgment from member app service worker / window listener
+          if (data.type === 'forceUpdateComplete' || data.type === 'cacheCleared') {
+            if (isResolved) return;
+            isResolved = true;
+            cleanup();
+            resolve({ appId: app.id, status: 'refreshed' });
+          }
+        };
+
+        window.addEventListener('message', handleMessage);
+
+        // 8-second timeout for cache refresh dispatch
+        timeoutId = setTimeout(() => {
+          if (isResolved) return;
+          isResolved = true;
+          cleanup();
+          // If the iframe loaded and we sent the message, treat as sent/timed-out gracefully
+          resolve({ appId: app.id, status: 'timed out' });
+        }, 8000);
+
+        iframe.onload = () => {
+          try {
+            // Post force update message to member app
+            iframe.contentWindow.postMessage(
+              {
+                type: 'FORCE_UPDATE',
+                action: 'clearCacheAndReload',
+                source: 'lite_launcher',
+                timestamp: Date.now()
+              },
+              '*'
+            );
+          } catch (err) {
+            // Handled by timeout or completion
+          }
+        };
+
+        iframe.src = app.baseUrl;
+        iframeHost.appendChild(iframe);
+      });
+    }
+
+    async function runRefreshAll() {
+      if (isRefreshingAll || isSyncingAll) return;
+
+      const apps = LiteApp.state.registry;
+      if (!apps || apps.length === 0) {
+        alert('No apps loaded to refresh.');
+        return;
+      }
+
+      isRefreshingAll = true;
+      btnRefreshAll.style.opacity = '0.6';
+      btnRefreshAll.disabled = true;
+
+      const appResults = {};
+      apps.forEach(a => {
+        appResults[a.name] = { status: 'pending' };
+      });
+
+      renderRefreshProgressCard(0, apps.length, '', appResults);
+
+      let completedCount = 0;
+
+      for (const app of apps) {
+        appResults[app.name] = { status: 'refreshing' };
+        renderRefreshProgressCard(completedCount, apps.length, app.name, appResults);
+
+        try {
+          const outcome = await refreshSingleApp(app);
+          appResults[app.name] = { status: outcome.status };
+        } catch (err) {
+          appResults[app.name] = { status: 'failed' };
+        }
+
+        completedCount++;
+        renderRefreshProgressCard(completedCount, apps.length, '', appResults);
+      }
+
+      isRefreshingAll = false;
+      btnRefreshAll.style.opacity = '1';
+      btnRefreshAll.disabled = false;
+
+      // Collapse progress card after 6 seconds
+      setTimeout(() => {
+        if (!isRefreshingAll && !isSyncingAll && statusArea) {
+          statusArea.innerHTML = '';
+        }
+      }, 6000);
+    }
+
+    btnRefreshAll.addEventListener('click', runRefreshAll);
+
+    /* =========================================================
+       SEGMENT 8: Theming System (Moods & Accents) (Implemented)
+       ========================================================= */
+
+    const MOOD_STORAGE_KEY = 'lite_mood';
+    const ACCENT_STORAGE_KEY = 'lite_accent';
+
+    const MOOD_BACKGROUNDS = {
+      'Paper': '#ffffff',
+      'Fog': '#f3f4f6',
+      'Cream': '#fbf8f2',
+      'Obsidian': '#000000',
+      'Slate': '#13171f',
+      'Dusk': '#0d1527'
+    };
+
+    function applyMood(moodName) {
+      if (!MOOD_BACKGROUNDS[moodName]) moodName = 'Obsidian';
+      document.body.setAttribute('data-mood', moodName);
+      LiteApp.state.activeMood = moodName;
+      localStorage.setItem(MOOD_STORAGE_KEY, moodName);
+
+      // Update meta theme-color tag to sync phone status bar
+      const metaTheme = document.querySelector('meta[name="theme-color"]');
+      if (metaTheme) {
+        metaTheme.setAttribute('content', MOOD_BACKGROUNDS[moodName]);
+      }
+
+      // Update mood buttons UI
+      document.querySelectorAll('#mood-picker .mood-btn').forEach(btn => {
+        if (btn.dataset.mood === moodName) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    function applyAccent(colorHex) {
+      LiteApp.state.activeAccent = colorHex;
+      localStorage.setItem(ACCENT_STORAGE_KEY, colorHex);
+      document.documentElement.style.setProperty('--accent-color', colorHex);
+      document.documentElement.style.setProperty('--accent-glow', `${colorHex}40`);
+
+      // Update accent swatches UI
+      document.querySelectorAll('#accent-picker .accent-swatch').forEach(swatch => {
+        if (swatch.dataset.accent.toLowerCase() === colorHex.toLowerCase()) {
+          swatch.classList.add('active');
+        } else {
+          swatch.classList.remove('active');
+        }
+      });
+    }
+
+    // Attach listeners
+    document.querySelectorAll('#mood-picker .mood-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        applyMood(btn.dataset.mood);
       });
     });
+
+    document.querySelectorAll('#accent-picker .accent-swatch').forEach(swatch => {
+      swatch.addEventListener('click', () => {
+        applyAccent(swatch.dataset.accent);
+      });
+    });
+
+    // Initialize saved mood & accent
+    applyMood(LiteApp.state.activeMood);
+    applyAccent(LiteApp.state.activeAccent);
+
+    /* =========================================================
+       SEGMENT 9: Offline & Service Worker (Implemented)
+       ========================================================= */
+
+    const swUpdateBanner = document.getElementById('sw-update-banner');
+
+    function showUpdatePrompt(waitingWorker) {
+      if (!swUpdateBanner) return;
+
+      swUpdateBanner.innerHTML = `
+        <div style="display:flex; align-items:center; justify-content:space-between; width:100%; background:rgba(56,189,248,0.15); border:1px solid var(--accent-color); padding:10px 14px; border-radius:12px; color:var(--text-main);">
+          <span style="font-size:0.8rem; font-weight:600;">Update available</span>
+          <button id="btn-sw-apply-update" type="button" style="background:var(--accent-color); color:#000; border:none; padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer;">
+            Tap to refresh
+          </button>
+        </div>
+      `;
+      swUpdateBanner.style.display = 'block';
+
+      document.getElementById('btn-sw-apply-update').addEventListener('click', () => {
+        if (waitingWorker) {
+          waitingWorker.postMessage({ action: 'skipWaiting' });
+        }
+      });
+    }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(registration => {
+            // Case 1: An updated service worker is already waiting
+            if (registration.waiting) {
+              showUpdatePrompt(registration.waiting);
+              return;
+            }
+
+            // Case 2: An updated service worker is currently installing
+            registration.addEventListener('updatefound', () => {
+              const installingWorker = registration.installing;
+              if (!installingWorker) return;
+
+              installingWorker.addEventListener('statechange', () => {
+                if (installingWorker.state === 'installed') {
+                  if (navigator.serviceWorker.controller) {
+                    // New update found and waiting
+                    showUpdatePrompt(installingWorker);
+                  }
+                }
+              });
+            });
+          })
+          .catch(err => {
+            console.warn('Service worker registration bypassed or failed:', err);
+          });
+
+        // When the waiting service worker takes over, reload to apply clean state
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!refreshing) {
+            refreshing = true;
+            window.location.reload();
+          }
+        });
+      });
+    }
+
+    /* =========================================================
+       SEGMENT 10: Hidden Diagnostics Page (Implemented)
+       ========================================================= */
+
+    const DIAGNOSTICS_STORAGE_KEY = 'lite_diagnostics_log';
+    const MAX_LOG_ENTRIES = 200;
+
+    // Load persisted log buffer
+    function getDiagnosticsLog() {
+      try {
+        return JSON.parse(localStorage.getItem(DIAGNOSTICS_STORAGE_KEY) || '[]');
+      } catch (e) {
+        return [];
+      }
+    }
+
+    // Structured Activity Logger (capped ring buffer at 200 entries)
+    function logDiagnosticEvent(category, eventName, details = {}) {
+      const logs = getDiagnosticsLog();
+      const entry = {
+        id: Date.now() + '-' + Math.random().toString(36).substr(2, 4),
+        timestamp: new Date().toISOString(),
+        category, // 'BRIDGE', 'SYNC', 'REFRESH', 'SW', 'REGISTRY'
+        eventName,
+        details
+      };
+
+      logs.push(entry);
+      if (logs.length > MAX_LOG_ENTRIES) {
+        logs.splice(0, logs.length - MAX_LOG_ENTRIES);
+      }
+
+      try {
+        localStorage.setItem(DIAGNOSTICS_STORAGE_KEY, JSON.stringify(logs));
+      } catch (err) {
+        console.warn('Diagnostics storage failed', err);
+      }
+    }
+
+    // Native Bridge invoker with error branching and diagnostics logging
+    async function invokePortalBridge(action, payload = {}) {
+      if (typeof PortalBridge === 'undefined' || !PortalBridge.isInsideShell()) {
+        const fallbackMsg = 'Outside Omega shell — degraded gracefully';
+        logDiagnosticEvent('BRIDGE', action, { status: 'DEGRADED_STANDALONE', payload });
+        return { success: false, reason: fallbackMsg };
+      }
+
+      try {
+        const result = await PortalBridge.call(action, payload);
+        logDiagnosticEvent('BRIDGE', action, { status: 'SUCCESS', result });
+        return { success: true, result };
+      } catch (bridgeError) {
+        // Strict branching on Bridge Error codes (Part A Rule #2)
+        const code = bridgeError.code || 'UNKNOWN_ERROR';
+        const details = {
+          code,
+          message: bridgeError.message,
+          errorType: [
+            'NOT_PERMITTED',
+            'TIMEOUT',
+            'PROTOCOL_MISMATCH',
+            'INVALID_PAYLOAD',
+            'NATIVE_ERROR'
+          ].includes(code) ? code : 'NATIVE_ERROR'
+        };
+        logDiagnosticEvent('BRIDGE', action, { status: 'ERROR', ...details });
+        return { success: false, error: details };
+      }
+    }
+
+    // Diagnostics Viewer Rendering
+    function renderDiagnosticsLog() {
+      const logs = getDiagnosticsLog();
+      const container = document.getElementById('diagnostics-log-container');
+      const countBadge = document.getElementById('log-count-badge');
+      if (countBadge) countBadge.textContent = `${logs.length} / ${MAX_LOG_ENTRIES}`;
+
+      if (!container) return;
+
+      if (logs.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center; padding:32px 0; color:var(--text-muted);">
+            No diagnostics logged yet.
+          </div>
+        `;
+        return;
+      }
+
+      const categoryColors = {
+        'BRIDGE': '#38bdf8',
+        'SYNC': '#34d399',
+        'REFRESH': '#a78bfa',
+        'SW': '#fbbf24',
+        'REGISTRY': '#fb7185'
+      };
+
+      container.innerHTML = logs.slice().reverse().map(item => {
+        const timeStr = new Date(item.timestamp).toLocaleTimeString([], {
+          hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+        const color = categoryColors[item.category] || 'var(--text-muted)';
+        const detailsStr = Object.keys(item.details).length > 0 
+          ? JSON.stringify(item.details, null, 1).replace(/\n\s*/g, ' ') 
+          : '';
+
+        return `
+          <div style="background:var(--bg-card); border:1px solid var(--border-card); border-radius:8px; padding:6px 10px; display:flex; flex-direction:column; gap:3px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <span style="background:${color}22; color:${color}; border:1px solid ${color}44; border-radius:4px; padding:1px 4px; font-weight:700; font-size:0.65rem;">${item.category}</span>
+                <strong style="color:var(--text-main); font-size:0.74rem;">${item.eventName}</strong>
+              </span>
+              <span style="color:var(--text-muted); font-size:0.65rem;">${timeStr}</span>
+            </div>
+            ${detailsStr ? `<div style="color:var(--text-muted); word-break:break-all; font-size:0.68rem;">${detailsStr}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Hidden Entry Point Trigger: Long press (>800ms) on Version number
+    const versionLabel = document.getElementById('app-version-label');
+    let pressTimer = null;
+
+    function startLongPress() {
+      pressTimer = setTimeout(() => {
+        // Trigger haptic if in shell or navigator
+        if (navigator.vibrate) navigator.vibrate(50);
+        renderDiagnosticsLog();
+        showScreen('diagnostics-screen');
+      }, 800);
+    }
+
+    function cancelLongPress() {
+      if (pressTimer) {
+        clearTimeout(pressTimer);
+        pressTimer = null;
+      }
+    }
+
+    versionLabel.addEventListener('pointerdown', startLongPress);
+    versionLabel.addEventListener('pointerup', cancelLongPress);
+    versionLabel.addEventListener('pointerleave', cancelLongPress);
+    versionLabel.addEventListener('pointercancel', cancelLongPress);
+
+    // Diagnostics Screen Actions
+    document.getElementById('btn-close-diagnostics').addEventListener('click', () => {
+      showScreen('settings-screen');
+    });
+
+    document.getElementById('btn-clear-log').addEventListener('click', () => {
+      localStorage.removeItem(DIAGNOSTICS_STORAGE_KEY);
+      renderDiagnosticsLog();
+    });
+
+    document.getElementById('btn-copy-log').addEventListener('click', async () => {
+      const logs = getDiagnosticsLog();
+      try {
+        await navigator.clipboard.writeText(JSON.stringify(logs, null, 2));
+        alert('Diagnostics log copied to clipboard.');
+      } catch (err) {
+        alert('Failed to copy: ' + err.message);
+      }
+    });
+
+    document.getElementById('btn-share-log').addEventListener('click', async () => {
+      const logs = getDiagnosticsLog();
+      const text = JSON.stringify(logs, null, 2);
+      const filename = `lite-diagnostics-${new Date().toISOString().slice(0, 10)}.json`;
+
+      if (navigator.canShare && window.File) {
+        try {
+          const file = new File([text], filename, { type: 'application/json' });
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              files: [file],
+              title: 'Lite Diagnostics Log',
+              text: 'Diagnostics log stream'
+            });
+            return;
+          }
+        } catch (shareErr) {
+          if (shareErr.name === 'AbortError') return;
+        }
+      }
+      triggerDirectDownload(text, filename);
+    });
+
+    // Instrument existing subsystems for full activity logging
+    const origFetchRegistry = fetchRegistryWithFallback;
+    fetchRegistryWithFallback = async function() {
+      logDiagnosticEvent('REGISTRY', 'FETCH_ATTEMPT', { url: REGISTRY_PRIMARY_URL });
+      try {
+        const data = await origFetchRegistry();
+        logDiagnosticEvent('REGISTRY', 'FETCH_SUCCESS', { count: data.length });
+        return data;
+      } catch (err) {
+        logDiagnosticEvent('REGISTRY', 'FETCH_FAILED', { error: err.message });
+        throw err;
+      }
+    };
+
+    const origRunSyncAll = runSyncAll;
+    runSyncAll = async function() {
+      logDiagnosticEvent('SYNC', 'SYNC_ALL_START', { appCount: LiteApp.state.registry.length });
+      const startTime = performance.now();
+      await origRunSyncAll();
+      const elapsedMs = Math.round(performance.now() - startTime);
+      logDiagnosticEvent('SYNC', 'SYNC_ALL_COMPLETE', { elapsedMs });
+    };
+
+    const origRunRefreshAll = runRefreshAll;
+    runRefreshAll = async function() {
+      logDiagnosticEvent('REFRESH', 'REFRESH_ALL_START', { appCount: LiteApp.state.registry.length });
+      const startTime = performance.now();
+      await origRunRefreshAll();
+      const elapsedMs = Math.round(performance.now() - startTime);
+      logDiagnosticEvent('REFRESH', 'REFRESH_ALL_COMPLETE', { elapsedMs });
+    };
+
+    // Log startup check & SW readiness
+    logDiagnosticEvent('SW', 'CLIENT_INIT', { 
+      standalone: window.matchMedia('(display-mode: standalone)').matches,
+      hasServiceWorker: 'serviceWorker' in navigator
+    });
+
+    /* =========================================================
+       SEGMENT 11: Polish & Edge Cases (Implemented)
+       ========================================================= */
+
+    // 1. Native Omega Shell / Standalone Runtime Detection
+    function detectRuntimeEnvironment() {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      const insideOmegaShell = typeof PortalBridge !== 'undefined' && PortalBridge.isInsideShell();
+
+      logDiagnosticEvent('BRIDGE', 'ENVIRONMENT_DETECTED', {
+        standalone: isStandalone,
+        insideOmegaShell,
+        userAgent: navigator.userAgent
+      });
+
+      // If running inside Omega shell, ensure shell handles navigation gracefully
+      if (insideOmegaShell) {
+        try {
+          PortalBridge.call('setThemeColor', { color: MOOD_BACKGROUNDS[LiteApp.state.activeMood] || '#0d0f12' })
+            .catch(() => {});
+        } catch (e) {}
+      }
+    }
+
+    // 2. Hardware / Keyboard 'Escape' key handler for modals & sub-screens
+    window.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('profile-edit-modal');
+        if (modal && !modal.classList.contains('hidden')) {
+          modal.classList.add('hidden');
+          modal.style.display = 'none';
+          return;
+        }
+
+        const diagnosticsScreen = document.getElementById('diagnostics-screen');
+        if (diagnosticsScreen && !diagnosticsScreen.classList.contains('hidden')) {
+          showScreen('settings-screen');
+          return;
+        }
+
+        const settingsScreen = document.getElementById('settings-screen');
+        if (settingsScreen && !settingsScreen.classList.contains('hidden')) {
+          showScreen('main-screen');
+        }
+      }
+    });
+
+    // 3. PWA Add to Home Screen / Install prompt handling
+    let deferredInstallPrompt = null;
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      logDiagnosticEvent('SW', 'INSTALL_PROMPT_AVAILABLE', {});
+    });
+
+    // 4. Offline / Online network event logging
+    window.addEventListener('online', () => {
+      logDiagnosticEvent('REGISTRY', 'NETWORK_ONLINE', {});
+      // Refresh registry if previously in offline cached state
+      const banner = document.getElementById('registry-status-banner');
+      if (banner && banner.innerHTML.trim() !== '') {
+        loadRegistry();
+      }
+    });
+
+    window.addEventListener('offline', () => {
+      logDiagnosticEvent('REGISTRY', 'NETWORK_OFFLINE', {});
+    });
+
+    // Run environmental check on boot
+    detectRuntimeEnvironment();
   </script>
 </body>
 </html>
