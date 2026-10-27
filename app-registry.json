@@ -1,23 +1,137 @@
 [
   {
-    "id": "portal",
-    "name": "Portal",
-    "baseUrl": "https://sazzadcheju49.github.io/portal-app/",
-    "capabilities": ["haptics"],
-    "themeColor": "#6366f1"
-  },
-  {
     "id": "wallet",
     "name": "Wallet",
     "baseUrl": "https://sazzadcheju49.github.io/wallet-app/",
-    "capabilities": ["biometrics", "files", "haptics"],
-    "themeColor": "#10b981"
+    "capabilities": ["haptics", "files"],
+    "themeColor": "#2E7D32",
+    "icon": "wallet",
+    "subtitle": "Track your money, your way"
+  },
+  {
+    "id": "tasks",
+    "name": "Tasks",
+    "baseUrl": "https://sazzadcheju49.github.io/tasks-app/",
+    "capabilities": ["haptics"],
+    "themeColor": "#3B82F6",
+    "icon": "check-square",
+    "subtitle": "Fast, minimal todo lists and daily planning"
+  },
+  {
+    "id": "habits",
+    "name": "Habits",
+    "baseUrl": "https://sazzadcheju49.github.io/habits-app/",
+    "capabilities": ["haptics"],
+    "themeColor": "#F97316",
+    "icon": "flame",
+    "subtitle": "Daily streak tracker and routines"
+  },
+  {
+    "id": "notes",
+    "name": "Notes",
+    "baseUrl": "https://sazzadcheju49.github.io/notes-app/",
+    "capabilities": ["files"],
+    "themeColor": "#EAB308",
+    "icon": "file-text",
+    "subtitle": "Quick capture scratchpad with markdown formatting and offline instant search"
   },
   {
     "id": "orbit",
     "name": "Orbit",
     "baseUrl": "https://sazzadcheju49.github.io/orbit-app/",
-    "capabilities": ["files", "haptics"],
-    "themeColor": "#f59e0b"
+    "capabilities": ["files"],
+    "themeColor": "#8B5CF6",
+    "icon": "orbit",
+    "subtitle": "Personal knowledge graph & second-brain hub"
+  },
+  {
+    "id": "calendar",
+    "name": "Calendar",
+    "baseUrl": "https://sazzadcheju49.github.io/calendar-app/",
+    "capabilities": [],
+    "themeColor": "#EC4899",
+    "icon": "calendar",
+    "subtitle": "Schedules, appointments, and agenda overview"
+  },
+  {
+    "id": "health",
+    "name": "Health",
+    "baseUrl": "https://sazzadcheju49.github.io/health-app/",
+    "capabilities": ["haptics"],
+    "themeColor": "#EF4444",
+    "icon": "heart-pulse",
+    "subtitle": "Vitals, metrics, sleep quality, and daily wellness logs"
+  },
+  {
+    "id": "journal",
+    "name": "Journal",
+    "baseUrl": "https://sazzadcheju49.github.io/journal-app/",
+    "capabilities": ["files"],
+    "themeColor": "#10B981",
+    "icon": "book-open",
+    "subtitle": "Private mindful reflections and daily log entries"
+  },
+  {
+    "id": "contacts",
+    "name": "Contacts",
+    "baseUrl": "https://sazzadcheju49.github.io/contacts-app/",
+    "capabilities": [],
+    "themeColor": "#06B6D4",
+    "icon": "users",
+    "subtitle": "Personal CRM and connection history"
+  },
+  {
+    "id": "documents",
+    "name": "Documents",
+    "baseUrl": "https://sazzadcheju49.github.io/documents-app/",
+    "capabilities": ["files"],
+    "themeColor": "#6366F1",
+    "icon": "folder",
+    "subtitle": "Encrypted file vault and receipt scanner archive"
+  },
+  {
+    "id": "reminders",
+    "name": "Reminders",
+    "baseUrl": "https://sazzadcheju49.github.io/reminders-app/",
+    "capabilities": ["haptics"],
+    "themeColor": "#F59E0B",
+    "icon": "bell",
+    "subtitle": "Time-sensitive alerts and geo-fenced notifications"
+  },
+  {
+    "id": "budget",
+    "name": "Budget",
+    "baseUrl": "https://sazzadcheju49.github.io/budget-app/",
+    "capabilities": [],
+    "themeColor": "#14B8A6",
+    "icon": "pie-chart",
+    "subtitle": "Envelope allocation, expense trends, and monthly cashflow breakdown"
+  },
+  {
+    "id": "reading",
+    "name": "Reading List",
+    "baseUrl": "https://sazzadcheju49.github.io/reading-app/",
+    "capabilities": [],
+    "themeColor": "#A855F7",
+    "icon": "bookmark",
+    "subtitle": "Articles, reading queues, and book notes"
+  },
+  {
+    "id": "recipes",
+    "name": "Recipes",
+    "baseUrl": "https://sazzadcheju49.github.io/recipes-app/",
+    "capabilities": [],
+    "themeColor": "#F43F5E",
+    "icon": "utensils",
+    "subtitle": "Meal planning, grocery lists, and quick pantry recipes"
+  },
+  {
+    "id": "workout",
+    "name": "Workout",
+    "baseUrl": "https://sazzadcheju49.github.io/workout-app/",
+    "capabilities": ["haptics"],
+    "themeColor": "#0EA5E9",
+    "icon": "activity",
+    "subtitle": "Training splits, sets, and personal records log"
   }
 ]
