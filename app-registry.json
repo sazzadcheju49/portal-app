@@ -18,9 +18,9 @@
     "subtitle": "Fast, minimal todo lists and daily planning"
   },
   {
-    "id": "habits",
-    "name": "Habits",
-    "baseUrl": "https://sazzadcheju49.github.io/habits-app/",
+    "id": "test",
+    "name": "Test",
+    "baseUrl": "https://sazzadcheju49.github.io/test-app/",
     "capabilities": ["haptics"],
     "themeColor": "#F97316",
     "icon": "flame",
