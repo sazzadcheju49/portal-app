@@ -12,6 +12,8 @@
   <meta name="description" content="Lite - Your apps, one place">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Contract Exception: Google Identity Services for Standalone Drive Push -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <style>
     /* ===================================================================== */
@@ -438,6 +440,97 @@
       width: 0%;
       transition: width 0.2s ease;
       pointer-events: none;
+    }
+
+    /* Daily Backup Reminder Banner (Standalone PWA) */
+    .reminder-banner {
+      background: var(--bg-card);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 0.5px solid var(--border-strong);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    .reminder-banner-content {
+      flex: 1;
+      min-width: 0;
+    }
+    .reminder-banner-title {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .reminder-banner-desc {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .reminder-banner-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .reminder-action-btn {
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.76rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      background: var(--accent);
+      color: #fff;
+      transition: var(--transition-smooth);
+    }
+    .reminder-action-btn:active {
+      transform: scale(0.95);
+    }
+    .reminder-dismiss-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Backup Provider Segmented Switch */
+    .provider-switch-segmented {
+      display: flex;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-md);
+      padding: 3px;
+      gap: 4px;
+      width: 100%;
+    }
+    .provider-tab-btn {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: var(--transition-smooth);
+    }
+    .provider-tab-btn.active {
+      background: var(--bg-card-solid);
+      color: var(--text-main);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+    .provider-tab-btn:active {
+      transform: scale(0.97);
     }
 
     /* 2.5 Scrollable Main Body */
@@ -1344,6 +1437,20 @@
 
     <!-- 4.2 Scrollable App List & Pinned Cards -->
     <main class="scrollable-body" id="scrollableBody">
+      <!-- Standalone Daily Reminder Banner -->
+      <div id="dailyReminderBanner" class="reminder-banner" style="display:none;">
+        <div class="reminder-banner-content">
+          <div class="reminder-banner-title">Backup Reminder</div>
+          <div class="reminder-banner-desc">No backup has been performed today.</div>
+        </div>
+        <div class="reminder-banner-actions">
+          <button type="button" class="reminder-action-btn" id="btnReminderBackUpNow">Back Up</button>
+          <button type="button" class="reminder-dismiss-btn" id="btnDismissReminder" title="Dismiss">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          </button>
+        </div>
+      </div>
+
       <div class="section-eyebrow">Apps</div>
 
       <!-- Fluent Drag-and-Drop App List -->
@@ -1498,10 +1605,37 @@
                 <div style="font-size:0.78rem; color:var(--text-muted);" id="backupStatsLabel">Calculating storage...</div>
               </div>
             </div>
+
+            <!-- Provider Selector -->
+            <div class="settings-item-row" style="flex-direction:column; align-items:stretch; gap:8px;">
+              <div style="font-size:0.78rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Backup Provider</div>
+              <div class="provider-switch-segmented" id="backupProviderSelector">
+                <button type="button" class="provider-tab-btn active" data-provider="file">Download</button>
+                <button type="button" class="provider-tab-btn" data-provider="share">Share Sheet</button>
+                <button type="button" class="provider-tab-btn" data-provider="drive" id="providerDriveTab">Google Drive</button>
+              </div>
+            </div>
+
+            <!-- Google Drive Configuration (Standalone PWA only) -->
+            <div id="driveProviderConfig" class="settings-item-row" style="display:none; flex-direction:column; align-items:stretch; gap:10px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <div style="font-size:0.90rem; font-weight:700;">Google Drive Push</div>
+                  <div style="font-size:0.75rem; color:var(--text-muted);" id="driveConnectionStatus">Not connected</div>
+                </div>
+                <button type="button" class="quick-btn primary" id="btnGoogleDriveAuth" style="padding:6px 14px; font-size:0.78rem;">Connect</button>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <input type="text" id="inputGoogleClientId" class="text-input-field" placeholder="Google OAuth Client ID" style="flex:1; font-size:0.76rem;" />
+                <button type="button" class="quick-btn secondary" id="btnSaveClientId" style="padding:6px 12px; font-size:0.76rem;">Save</button>
+              </div>
+              <button type="button" class="quick-btn primary" id="btnPushToDrive" style="width:100%; display:none;">Push to Drive Now</button>
+            </div>
+
             <div class="settings-item-row" style="gap:10px;">
               <button class="quick-btn secondary" style="flex:1;" id="btnDownloadBackup">Download .json</button>
               <button class="quick-btn secondary" style="flex:1;" id="btnImportBackupTrigger">Import .json</button>
-              <input type="file" id="fileBackupInput" accept=".json" style="display:none;" />
+              <input type="file" id="fileBackupInput" accept=".json,.zip" style="display:none;" />
             </div>
             <div class="settings-item-row">
               <button class="quick-btn primary" style="width:100%;" id="btnShareBackup">Save Backup (Share Sheet / Drive)</button>
@@ -2337,12 +2471,211 @@
     };
 
     // -----------------------------------------------------------------------
-    // 5.8 Backup & Files
+    // 5.8 Backup & Files (Contract v2 Shared Store & Drive Push)
     // -----------------------------------------------------------------------
     const BackupEngine = {
+      currentProvider: 'file',
+      driveToken: null,
+
       init() {
+        this.currentProvider = StorageManager.get('backup_provider', 'file');
         this.updateStats();
+        this.setupProviderUI();
         this.bindEvents();
+      },
+
+      setupProviderUI() {
+        const driveTab = document.getElementById('providerDriveTab');
+        const driveConfig = document.getElementById('driveProviderConfig');
+        const clientIdInput = document.getElementById('inputGoogleClientId');
+
+        if (clientIdInput) {
+          clientIdInput.value = StorageManager.get('google_client_id', '');
+        }
+
+        // Inside native shell (Omega), hide Google Drive per contract v2
+        if (bridge.isInsideLiteShell) {
+          if (driveTab) driveTab.style.display = 'none';
+          if (driveConfig) driveConfig.style.display = 'none';
+          if (this.currentProvider === 'drive') this.currentProvider = 'share';
+        }
+
+        this.setProvider(this.currentProvider);
+
+        // Segmented tab clicks
+        document.querySelectorAll('.provider-tab-btn').forEach(btn => {
+          btn.onclick = () => {
+            bridge.haptic('selection');
+            this.setProvider(btn.dataset.provider);
+          };
+        });
+
+        // Save Google Client ID
+        const btnSaveClientId = document.getElementById('btnSaveClientId');
+        if (btnSaveClientId && clientIdInput) {
+          btnSaveClientId.onclick = () => {
+            bridge.haptic('success');
+            StorageManager.set('google_client_id', clientIdInput.value.trim());
+            alert('Google OAuth Client ID saved.');
+          };
+        }
+
+        // Google Drive Auth Trigger
+        const btnGoogleAuth = document.getElementById('btnGoogleDriveAuth');
+        if (btnGoogleAuth) {
+          btnGoogleAuth.onclick = () => this.authenticateGoogleDrive();
+        }
+
+        // Push to Drive Button
+        const btnPushDrive = document.getElementById('btnPushToDrive');
+        if (btnPushDrive) {
+          btnPushDrive.onclick = () => this.pushToGoogleDrive();
+        }
+      },
+
+      setProvider(provider) {
+        this.currentProvider = provider;
+        StorageManager.set('backup_provider', provider);
+
+        document.querySelectorAll('.provider-tab-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.provider === provider);
+        });
+
+        const driveConfig = document.getElementById('driveProviderConfig');
+        if (driveConfig) {
+          driveConfig.style.display = (provider === 'drive' && !bridge.isInsideLiteShell) ? 'flex' : 'none';
+        }
+      },
+
+      async authenticateGoogleDrive(promptConsent = false) {
+        return new Promise((resolve, reject) => {
+          const clientId = StorageManager.get('google_client_id', '').trim();
+          if (!clientId) {
+            alert('Please enter and save your Google Cloud OAuth Client ID first.');
+            resolve(false);
+            return;
+          }
+
+          if (typeof google === 'undefined' || !google.accounts || !google.accounts.oauth2) {
+            alert('Google Identity Services script is still loading. Please check your internet connection.');
+            resolve(false);
+            return;
+          }
+
+          try {
+            const client = google.accounts.oauth2.initTokenClient({
+              client_id: clientId,
+              scope: 'https://www.googleapis.com/auth/drive.file',
+              callback: (tokenResponse) => {
+                if (tokenResponse && tokenResponse.access_token) {
+                  this.driveToken = tokenResponse.access_token;
+                  const statusEl = document.getElementById('driveConnectionStatus');
+                  const pushBtn = document.getElementById('btnPushToDrive');
+                  const authBtn = document.getElementById('btnGoogleDriveAuth');
+
+                  if (statusEl) statusEl.textContent = 'Connected (Active)';
+                  if (pushBtn) pushBtn.style.display = 'block';
+                  if (authBtn) authBtn.textContent = 'Reconnect';
+
+                  bridge.haptic('success');
+                  resolve(true);
+                } else {
+                  resolve(false);
+                }
+              },
+              error_callback: (err) => {
+                console.error('[GIS Error]', err);
+                resolve(false);
+              }
+            });
+
+            client.requestAccessToken({ prompt: promptConsent ? 'consent' : '' });
+          } catch (e) {
+            console.error('[GIS Exception]', e);
+            resolve(false);
+          }
+        });
+      },
+
+      async pushToGoogleDrive() {
+        bridge.haptic('medium');
+        if (!this.driveToken) {
+          const authOk = await this.authenticateGoogleDrive(true);
+          if (!authOk || !this.driveToken) return false;
+        }
+
+        const statusEl = document.getElementById('driveConnectionStatus');
+        if (statusEl) statusEl.textContent = 'Uploading to Drive...';
+
+        try {
+          const pkg = await this.generatePackage();
+          const content = JSON.stringify(pkg, null, 2);
+          const fileName = 'portal_ecosystem_backup.json';
+
+          // 1. Check if backup file already exists in user's Drive
+          const query = encodeURIComponent(`name = '${fileName}' and trashed = false`);
+          const searchRes = await fetch(`https://www.googleapis.com/drive/v3/files?q=${query}&fields=files(id,name)`, {
+            headers: { 'Authorization': `Bearer ${this.driveToken}` }
+          });
+          const searchData = await searchRes.json();
+          const existingFile = searchData.files && searchData.files[0];
+
+          // 2. Upload / Overwrite via Multipart
+          const boundary = '-------314159265358979323846';
+          const delimiter = `\r\n--${boundary}\r\n`;
+          const closeDelimiter = `\r\n--${boundary}--`;
+
+          const metadata = {
+            name: fileName,
+            mimeType: 'application/json',
+            description: 'Portal ecosystem unified backup by Lite PWA'
+          };
+
+          const multipartBody =
+            delimiter +
+            'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
+            JSON.stringify(metadata) +
+            delimiter +
+            'Content-Type: application/json\r\n\r\n' +
+            content +
+            closeDelimiter;
+
+          let uploadUrl = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart';
+          let method = 'POST';
+
+          if (existingFile && existingFile.id) {
+            uploadUrl = `https://www.googleapis.com/upload/drive/v3/files/${existingFile.id}?uploadType=multipart`;
+            method = 'PATCH';
+          }
+
+          const uploadRes = await fetch(uploadUrl, {
+            method: method,
+            headers: {
+              'Authorization': `Bearer ${this.driveToken}`,
+              'Content-Type': `multipart/related; boundary=${boundary}`
+            },
+            body: multipartBody
+          });
+
+          if (!uploadRes.ok) throw new Error(`Drive HTTP ${uploadRes.status}`);
+
+          const todayDate = new Date().toISOString().slice(0, 10);
+          StorageManager.set('last_backup_time', new Date().toLocaleDateString());
+          StorageManager.set('last_backup_date', todayDate);
+          StorageManager.clearUnbackedDots();
+          UIEngine.renderHomeApps();
+          this.updateStats();
+
+          if (statusEl) statusEl.textContent = 'Drive Sync Complete';
+          bridge.haptic('success');
+          return true;
+        } catch (err) {
+          console.error('[Drive Push Error]', err);
+          if (statusEl) statusEl.textContent = 'Upload failed (tap Reconnect)';
+          this.driveToken = null;
+          bridge.haptic('error');
+          return false;
+        }
       },
 
       updateStats() {
@@ -2360,19 +2693,46 @@
         label.textContent = `${kb} KB footprint • Last: ${lastBackup}`;
       },
 
-      generatePackage() {
-        const manifest = { totalKeys: localStorage.length, generatedAt: new Date().toISOString(), version: 2 };
+      async generatePackage() {
+        const manifest = {
+          totalKeys: localStorage.length,
+          generatedAt: new Date().toISOString(),
+          version: 2,
+          storageType: 'hybrid_opfs_local'
+        };
         const appData = {};
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
           appData[key] = localStorage.getItem(key);
         }
-        return { formatVersion: 2, manifest, appData };
+
+        // Shared Store (OPFS) traversal
+        const opfsData = {};
+        if (typeof navigator !== 'undefined' && navigator.storage && navigator.storage.getDirectory) {
+          try {
+            const root = await navigator.storage.getDirectory();
+            for await (const [name, handle] of root.entries()) {
+              if (handle.kind === 'directory') {
+                opfsData[name] = {};
+                for await (const [fileName, fileHandle] of handle.entries()) {
+                  if (fileHandle.kind === 'file') {
+                    const file = await fileHandle.getFile();
+                    opfsData[name][fileName] = await file.text();
+                  }
+                }
+              }
+            }
+          } catch (e) {
+            console.warn('[OPFS Backup Traversal]', e);
+          }
+        }
+
+        return { formatVersion: 2, manifest, appData, opfsData };
       },
 
       async downloadBackup() {
         bridge.haptic('light');
-        const pkg = this.generatePackage();
+        const pkg = await this.generatePackage();
         const json = JSON.stringify(pkg, null, 2);
         const blob = new Blob([json], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
@@ -2383,7 +2743,9 @@
         a.click();
         URL.revokeObjectURL(url);
 
+        const todayDate = new Date().toISOString().slice(0, 10);
         StorageManager.set('last_backup_time', new Date().toLocaleDateString());
+        StorageManager.set('last_backup_date', todayDate);
         StorageManager.clearUnbackedDots();
         UIEngine.renderHomeApps();
         this.updateStats();
@@ -2392,14 +2754,16 @@
 
       async saveBackupNativeOrShare() {
         bridge.haptic('medium');
-        const pkg = this.generatePackage();
+        const pkg = await this.generatePackage();
         const json = JSON.stringify(pkg, null, 2);
         const filename = `lite-backup-${new Date().toISOString().slice(0, 10)}.json`;
+        const todayDate = new Date().toISOString().slice(0, 10);
 
         if (bridge.isInsideLiteShell) {
           const res = await bridge.saveFile(filename, json, 'application/json');
           if (res.success) {
             StorageManager.set('last_backup_time', new Date().toLocaleDateString());
+            StorageManager.set('last_backup_date', todayDate);
             StorageManager.clearUnbackedDots();
             UIEngine.renderHomeApps();
             this.updateStats();
@@ -2410,18 +2774,19 @@
             const file = new File([json], filename, { type: 'application/json' });
             await navigator.share({ title: 'Lite PWA Backup', files: [file] });
             StorageManager.set('last_backup_time', new Date().toLocaleDateString());
+            StorageManager.set('last_backup_date', todayDate);
             StorageManager.clearUnbackedDots();
             UIEngine.renderHomeApps();
             this.updateStats();
           } catch (e) {
-            this.downloadBackup();
+            await this.downloadBackup();
           }
         } else {
-          this.downloadBackup();
+          await this.downloadBackup();
         }
       },
 
-      importBackup(jsonString) {
+      async importBackup(jsonString) {
         try {
           const data = JSON.parse(jsonString);
           if (!data || !data.appData) throw new Error('Invalid');
@@ -2429,8 +2794,33 @@
           NavigationController.showConfirm(
             'Restore Backup?',
             `Restore ${Object.keys(data.appData).length} stored records? Local data will be replaced.`,
-            () => {
+            async () => {
+              // 1. Restore localStorage
               Object.keys(data.appData).forEach(k => localStorage.setItem(k, data.appData[k]));
+
+              // 2. Restore OPFS shared store
+              if (data.opfsData && typeof navigator !== 'undefined' && navigator.storage && navigator.storage.getDirectory) {
+                try {
+                  const root = await navigator.storage.getDirectory();
+                  for (const dirName of Object.keys(data.opfsData)) {
+                    const dirHandle = await root.getDirectoryHandle(dirName, { create: true });
+                    const files = data.opfsData[dirName];
+                    for (const fileName of Object.keys(files)) {
+                      const fileHandle = await dirHandle.getFileHandle(fileName, { create: true });
+                      const writable = await fileHandle.createWritable();
+                      await writable.write(files[fileName]);
+                      await writable.close();
+                    }
+                  }
+                  if (typeof BroadcastChannel !== 'undefined') {
+                    const ch = new BroadcastChannel('lite_storage_sync');
+                    ch.postMessage({ type: 'LITE_STORAGE_RESTORED', timestamp: Date.now() });
+                  }
+                } catch (opfsErr) {
+                  console.warn('[OPFS Restore]', opfsErr);
+                }
+              }
+
               bridge.haptic('success');
               NavigationController.closeAll();
               ThemeManager.init();
@@ -2441,6 +2831,16 @@
         } catch (err) {
           bridge.haptic('error');
           NavigationController.showConfirm('Import Error', 'Invalid backup file.', null);
+        }
+      },
+
+      async triggerBackupAll() {
+        if (this.currentProvider === 'drive' && !bridge.isInsideLiteShell) {
+          return await this.pushToGoogleDrive();
+        } else if (this.currentProvider === 'share') {
+          return await this.saveBackupNativeOrShare();
+        } else {
+          return await this.downloadBackup();
         }
       },
 
@@ -2465,11 +2865,14 @@
           label.textContent = 'Backing up...';
           progress.style.width = '35%';
 
-          await new Promise(r => setTimeout(r, 300));
+          await new Promise(r => setTimeout(r, 250));
           progress.style.width = '75%';
 
-          await this.saveBackupNativeOrShare();
+          await this.triggerBackupAll();
           progress.style.width = '100%';
+
+          // Hide standalone banner if active
+          ReminderEngine.hideBanner();
 
           setTimeout(() => {
             progress.style.width = '0%';
@@ -2498,6 +2901,118 @@
             label.textContent = 'Refresh All';
           }, 500);
         };
+      }
+    };
+
+    // -----------------------------------------------------------------------
+    // 5.8B Daily Reminder Engine (Standalone PWA Banner vs Omega Notification)
+    // -----------------------------------------------------------------------
+    const ReminderEngine = {
+      init() {
+        this.bindSettings();
+        this.checkSchedule();
+      },
+
+      bindSettings() {
+        const check = document.getElementById('checkDailyReminder');
+        const inputTime = document.getElementById('inputReminderTime');
+
+        if (check) {
+          check.checked = StorageManager.get('reminder_enabled', true);
+          check.onchange = () => {
+            bridge.haptic('light');
+            StorageManager.set('reminder_enabled', check.checked);
+            this.syncWithPlatform();
+          };
+        }
+
+        if (inputTime) {
+          inputTime.value = StorageManager.get('reminder_time', '21:00');
+          inputTime.onchange = () => {
+            bridge.haptic('selection');
+            StorageManager.set('reminder_time', inputTime.value);
+            this.syncWithPlatform();
+          };
+        }
+
+        // Banner actions
+        const btnBannerBackup = document.getElementById('btnReminderBackUpNow');
+        if (btnBannerBackup) {
+          btnBannerBackup.onclick = async () => {
+            bridge.haptic('medium');
+            await BackupEngine.triggerBackupAll();
+            this.hideBanner();
+          };
+        }
+
+        const btnBannerDismiss = document.getElementById('btnDismissReminder');
+        if (btnBannerDismiss) {
+          btnBannerDismiss.onclick = () => {
+            bridge.haptic('light');
+            const todayStr = new Date().toISOString().slice(0, 10);
+            sessionStorage.setItem('reminder_dismissed', todayStr);
+            this.hideBanner();
+          };
+        }
+      },
+
+      syncWithPlatform() {
+        const enabled = StorageManager.get('reminder_enabled', true);
+        const timeVal = StorageManager.get('reminder_time', '21:00');
+
+        if (bridge.isInsideLiteShell) {
+          if (!enabled) {
+            bridge.cancelNotification('lite_daily_backup_reminder');
+          } else {
+            const [h, m] = timeVal.split(':').map(Number);
+            bridge.scheduleNotification(
+              'Lite Daily Backup Reminder',
+              'Remember to back up your apps today.',
+              { hour: h, minute: m, repeat: 'daily' },
+              { appId: 'lite', notificationId: 'lite_daily_backup_reminder' }
+            );
+          }
+        }
+      },
+
+      checkSchedule() {
+        // If in native shell, rely on native daily scheduled notification
+        if (bridge.isInsideLiteShell) {
+          this.syncWithPlatform();
+          return;
+        }
+
+        // Standalone PWA: Show in-app banner if after set time and not backed up today
+        const enabled = StorageManager.get('reminder_enabled', true);
+        if (!enabled) return;
+
+        const timeVal = StorageManager.get('reminder_time', '21:00');
+        const [targetHour, targetMin] = timeVal.split(':').map(Number);
+
+        const now = new Date();
+        const nowHour = now.getHours();
+        const nowMin = now.getMinutes();
+
+        const isPastReminderTime = (nowHour > targetHour) || (nowHour === targetHour && nowMin >= targetMin);
+        const todayStr = now.toISOString().slice(0, 10);
+        const lastBackupDate = StorageManager.get('last_backup_date', '');
+        const isDismissed = sessionStorage.getItem('reminder_dismissed') === todayStr;
+
+        if (isPastReminderTime && lastBackupDate !== todayStr && !isDismissed) {
+          this.showBanner();
+        } else {
+          this.hideBanner();
+        }
+      },
+
+      showBanner() {
+        const banner = document.getElementById('dailyReminderBanner');
+        if (banner) banner.style.display = 'flex';
+      },
+
+      hideBanner() {
+        const banner = document.getElementById('dailyReminderBanner');
+        if (banner) banner.style.display = 'none';
       }
     };
 
@@ -2659,6 +3174,7 @@
       await RegistryEngine.loadCatalog();
       UIEngine.init();
       BackupEngine.init();
+      ReminderEngine.init();
       NavigationController.init();
     });
   </script>
